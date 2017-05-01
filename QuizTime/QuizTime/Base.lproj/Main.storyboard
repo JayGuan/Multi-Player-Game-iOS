@@ -21,30 +21,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mjg-Yv-Wdx">
-                                <rect key="frame" x="16" y="424" width="150" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Single Player">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="singlePlayer:" destination="CBz-k4-nlp" eventType="touchUpInside" id="Z9P-J9-gQR"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Yb-vG-klU">
-                                <rect key="frame" x="209" y="424" width="150" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Multi Player">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="multiPlayer:" destination="CBz-k4-nlp" eventType="touchUpInside" id="ft6-f0-oQU"/>
-                                </connections>
-                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="single.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="n3u-EF-dQa">
                                 <rect key="frame" x="41" y="316" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -72,22 +48,36 @@
                                 <state key="normal" title="Start Game"/>
                                 <connections>
                                     <action selector="startGame:" destination="CBz-k4-nlp" eventType="touchUpInside" id="kV7-sr-Zfj"/>
-                                    <segue destination="0B8-Uh-r5u" kind="show" id="meF-TA-Ji3"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="b59-Q4-PHk">
+                                <rect key="frame" x="127" y="443" width="121" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="First"/>
+                                    <segment title="Second"/>
+                                </segments>
+                                <connections>
+                                    <action selector="selectGameType:" destination="CBz-k4-nlp" eventType="valueChanged" id="wXa-iY-YJM"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="7vh-BZ-Tkx"/>
+                    <connections>
+                        <outlet property="gameSelector" destination="b59-Q4-PHk" id="QBn-Dc-9sV"/>
+                        <segue destination="0B8-Uh-r5u" kind="show" identifier="showGameScreen" id="yas-bQ-Sig"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lmj-pV-mCJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-63.200000000000003" y="72.413793103448285"/>
         </scene>
-        <!--View Controller-->
+        <!--Game Screen-->
         <scene sceneID="iYH-Fa-lfj">
             <objects>
-                <viewController id="0B8-Uh-r5u" sceneMemberID="viewController">
+                <viewController id="0B8-Uh-r5u" customClass="gameScreen" customModule="QuizTime" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="SnU-SB-QiE"/>
                         <viewControllerLayoutGuide type="bottom" id="Xa5-QC-wIS"/>
@@ -152,6 +142,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" title="B"/>
+                                <connections>
+                                    <action selector="hh:" destination="0B8-Uh-r5u" eventType="touchUpInside" id="aL2-Po-E8I"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tCC-2F-tuo">
                                 <rect key="frame" x="16" y="388" width="148" height="40"/>

@@ -10,9 +10,10 @@ import MultipeerConnectivity
 
 class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessionDelegate {
     
+    @IBOutlet var gameSelector: UISegmentedControl!
     var session: MCSession!
     var peerID: MCPeerID!
-    
+    var gameType = -1;
     var quizArray = [Quiz]()
     
     var browser: MCBrowserViewController!
@@ -33,11 +34,13 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         session.delegate = self
         browser.delegate = self
         
-        var quiz = Quiz(jsonURL:"http://www.people.vcu.edu/~ebulut/jsonFiles/quiz1.json")
+        let quiz = Quiz(jsonURL:"http://www.people.vcu.edu/~ebulut/jsonFiles/quiz1.json")
+       let quiz2 = Quiz(jsonURL:"http://www.people.vcu.edu/~ebulut/jsonFiles/quiz2.json")
         
-        quizArray.append(quiz)
+       quizArray.append(quiz)
+       quizArray.append(quiz2)
         
-        print("in here \(quiz.numberOfQuestions)")
+      //  print("in here \(quiz.numberOfQuestions)")
         //print(quiz.questionSentences[0])
         /*
         var numQ = quiz.numberOfQuestions as Int
@@ -61,67 +64,45 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         
     }
     
-    @IBAction func singlePlayer(_ sender: UIButton) {
-       print("Single player")
-        print(quizArray[0].numberOfQuestions)
+  
+    @IBAction func selectGameType(_ sender: Any) {
         
-        var numQ = quizArray[0].numberOfQuestions as Int
-        
-        for i in 0...numQ-1
+        if gameSelector.selectedSegmentIndex == 0
         {
-            print(quizArray[0].questionSentences[i])
-            print(quizArray[0].options[i])
-            print(quizArray[0].correctOptions[i])
-            
+            gameType = 0
         }
-
-        
-
-    }
-    
-    
-    @IBAction func multiPlayer(_ sender: UIButton) {
+        else if gameSelector.selectedSegmentIndex == 1
+        {
+            gameType = 1
+        }
         
     }
+    
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("This does not tyoe")
+        if segue.identifier == "showGameScreen" {
+            if let DVC = segue.destination as? gameScreen{
+                DVC.gameType = gameType
+                DVC.quizArray = quizArray
+                       }
+        }
+    }
+
     
     
     @IBAction func startGame(_ sender: UIButton) {
+         print("in segue")
+        print(quizArray[0].numberOfQuestions)
         
-    }
-    
-    /*
-    @IBAction func sendMessage(_ sender: UIButton) {
-        
-        let msg = messageTF.text
-        let dataToSend =  NSKeyedArchiver.archivedData(withRootObject: msg!)
-        
-        do{
-            try session.send(dataToSend, toPeers: session.connectedPeers, with: .unreliable)
-        }
-        catch let err {
-            //print("Error in sending data \(err)")
-        }
-        
-        updateChatView(newText: msg!, id: peerID)
-        
-    }
-    
-    func updateChatView(newText: String, id: MCPeerID){
-        
-        let currentText = chatWindow.text
-        var addThisText = ""
-        
-        if(id == peerID){
-            addThisText = "Me: " + newText + "\n"
-        }
-        else
+        // gameScreen().quizArray = quizArray
+        if(gameType != -1)
         {
-            addThisText = "\(id.displayName): \(newText)\n"
+        performSegue(withIdentifier: "showGameScreen", sender: self)
         }
-        chatWindow.text = currentText! + addThisText
-        
     }
-*/
+    
+
+
     
     
     //**********************************************************

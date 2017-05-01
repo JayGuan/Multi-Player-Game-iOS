@@ -78,6 +78,7 @@
 				351DECEC1EAEE59400EB9856 /* Quiz.swift */,
 				35166CE71EAE8BA700B11BF3 /* ViewController.swift */,
 				35166CE91EAE8BA700B11BF3 /* Main.storyboard */,
+				35166D001EAE944500B11BF3 /* gameScreen.swift */,
 				35166CEF1EAE8BA700B11BF3 /* Assets.xcassets */,
 				35166D021EAE9DC900B11BF3 /* player4.png */,
 				35166D031EAE9DC900B11BF3 /* player3.png */,
@@ -89,7 +90,6 @@
 				35166CF11EAE8BA700B11BF3 /* LaunchScreen.storyboard */,
 				35166CF41EAE8BA700B11BF3 /* Info.plist */,
 				35166CEC1EAE8BA700B11BF3 /* QuizTime.xcdatamodeld */,
-				35166D001EAE944500B11BF3 /* gameScreen.swift */,
 			);
 			path = QuizTime;
 			sourceTree = "<group>";

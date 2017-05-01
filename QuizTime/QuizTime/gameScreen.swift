@@ -19,14 +19,15 @@ import MultipeerConnectivity
 class gameScreen: UIViewController {
     
  
-    
+    var quizArray = [Quiz]()
+    var gameType: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
      
-        
+       
         
         
         
@@ -49,6 +50,10 @@ class gameScreen: UIViewController {
     
     
    
+    @IBAction func hh(_ sender: Any) {
+         print(quizArray[0].numberOfQuestions)
+        
+    }
     
     
     
