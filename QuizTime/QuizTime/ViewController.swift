@@ -14,7 +14,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     var session: MCSession!
     @IBOutlet weak var startGameButton: UIButton!
     var peerID: MCPeerID!
-    var gameType = -1;
+    var gameType = 0;
     var quizArray = [Quiz]()
     var connectionNum = 0
     var browser: MCBrowserViewController!
@@ -100,6 +100,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
                 notifyOtherUsers()
                 DVC.gameType = gameType
                 DVC.quizArray = quizArray
+                DVC.connectionNum = self.connectionNum
             }
         }
     }
@@ -109,7 +110,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     @IBAction func startGame(_ sender: UIButton) {
          print("in segue")
         print(quizArray[0].numberOfQuestions)
-        
+        startedGame = true
         // gameScreen().quizArray = quizArray
         if(gameType != -1)
         {
@@ -149,7 +150,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     //**********************************************************
     // required functions for MCSessionDelegate
     func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL, withError error: Error?) {
-        
+        print("resource: [\(resourceName)]")
     }
     
     func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
