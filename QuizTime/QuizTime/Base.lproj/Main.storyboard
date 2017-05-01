@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="h0s-H9-cgo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1421" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="h0s-H9-cgo">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -51,11 +51,11 @@
                                 </connections>
                             </button>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="b59-Q4-PHk">
-                                <rect key="frame" x="127" y="443" width="121" height="29"/>
+                                <rect key="frame" x="84" y="461" width="223" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
-                                    <segment title="First"/>
-                                    <segment title="Second"/>
+                                    <segment title="Single Player"/>
+                                    <segment title="Multi Player"/>
                                 </segments>
                                 <connections>
                                     <action selector="selectGameType:" destination="CBz-k4-nlp" eventType="valueChanged" id="wXa-iY-YJM"/>
@@ -67,6 +67,7 @@
                     <navigationItem key="navigationItem" id="7vh-BZ-Tkx"/>
                     <connections>
                         <outlet property="gameSelector" destination="b59-Q4-PHk" id="QBn-Dc-9sV"/>
+                        <outlet property="startGameButton" destination="NdE-3v-JUj" id="qiQ-EH-x39"/>
                         <segue destination="0B8-Uh-r5u" kind="show" identifier="showGameScreen" id="yas-bQ-Sig"/>
                     </connections>
                 </viewController>

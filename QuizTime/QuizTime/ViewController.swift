@@ -12,13 +12,14 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     
     @IBOutlet var gameSelector: UISegmentedControl!
     var session: MCSession!
+    @IBOutlet weak var startGameButton: UIButton!
     var peerID: MCPeerID!
     var gameType = -1;
     var quizArray = [Quiz]()
-    
+    var connectionNum = 0
     var browser: MCBrowserViewController!
     var assistant: MCAdvertiserAssistant!
-      
+    var startedGame = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,22 +70,37 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         
         if gameSelector.selectedSegmentIndex == 0
         {
+            // 0 = single player
             gameType = 0
         }
         else if gameSelector.selectedSegmentIndex == 1
         {
+            // 1 = multi player
             gameType = 1
         }
         
+    }
+    
+    func notifyOtherUsers() {
+        let msg = "begin"
+        let dataToSend =  NSKeyedArchiver.archivedData(withRootObject: msg)
+        do{
+            try session.send(dataToSend, toPeers: session.connectedPeers, with: .unreliable)
+        }
+        catch let err {
+            //print("Error in sending data \(err)")
+        }
     }
     
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         print("This does not tyoe")
         if segue.identifier == "showGameScreen" {
             if let DVC = segue.destination as? gameScreen{
+                //TODO check game type, if multi player then switch all user's screen to game scene
+                notifyOtherUsers()
                 DVC.gameType = gameType
                 DVC.quizArray = quizArray
-                       }
+            }
         }
     }
 
@@ -97,7 +113,16 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         // gameScreen().quizArray = quizArray
         if(gameType != -1)
         {
-        performSegue(withIdentifier: "showGameScreen", sender: self)
+            //for multi player game, check number of connections
+            if (gameType == 1 && (connectionNum == 0 || connectionNum > 3)) {
+                let alert = UIAlertController(title: "Error", message: "Number of players should be at least 2 and at most 4", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+            else {
+                performSegue(withIdentifier: "showGameScreen", sender: self)
+            }
+           
         }
     }
     
@@ -127,18 +152,6 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         
     }
     
-    func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        
-        // this needs to be run on the main thread
-        DispatchQueue.main.async(execute: {
-            
-            if let receivedString = NSKeyedUnarchiver.unarchiveObject(with: data) as? String{
-              //  self.updateChatView(newText: receivedString, id: peerID)
-            }
-            
-        })
-    }
-    
     func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
         
     }
@@ -147,12 +160,34 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         
     }
     
+    func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
+        
+        // this needs to be run on the main thread
+        DispatchQueue.main.async(execute: {
+            
+            if let receivedString = NSKeyedUnarchiver.unarchiveObject(with: data) as? String{
+                print("receivedString = [\(receivedString)]")
+                if receivedString == "begin" {
+                    print("entered")
+                    if (!self.startedGame) {
+                        self.gameType = 1
+                        self.performSegue(withIdentifier: "showGameScreen", sender: self)
+                        self.startedGame = true
+                    }
+                }
+            }
+            
+        })
+    }
+    
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         
         // Called when a connected peer changes state (for example, goes offline)
         
         switch state {
         case MCSessionState.connected:
+            connectionNum += 1
+            print("Connection Test: [\(connectionNum)]")
             print("Connected: \(peerID.displayName)")
             
         case MCSessionState.connecting:
