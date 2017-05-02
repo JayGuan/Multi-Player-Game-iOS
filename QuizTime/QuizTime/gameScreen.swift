@@ -38,6 +38,17 @@ class gameScreen: UIViewController {
     @IBOutlet weak var score4: UILabel!
     
     
+    @IBOutlet weak var player1AnswerText: UITextField!
+    
+    @IBOutlet weak var player2AnswerText: UITextField!
+    
+    @IBOutlet weak var player3AnswerText: UITextField!
+    
+    
+    @IBOutlet weak var player4AnswerText: UITextField!
+    
+    
+    
     var motionManager = CMMotionManager()
     var quizArray = [Quiz]()
     var currentQuesitonNum = 0
@@ -102,7 +113,25 @@ class gameScreen: UIViewController {
             
             print("shake shake ")
             // pick a random number from 1 to 4 and use those as pick
+            var num = arc4random_uniform(4)+1
+            print(num)
             
+            if num==1
+            {
+                buttonA.sendActions(for: .touchUpInside)
+            }
+            else if num == 2
+            {
+                buttonB.sendActions(for: .touchUpInside)
+            }
+            else if num == 3
+            {
+                buttonC.sendActions(for: .touchUpInside)
+            }
+            else if num == 4
+            {
+                buttonD.sendActions(for: .touchUpInside)
+            }
         }
     }
     
@@ -122,6 +151,7 @@ class gameScreen: UIViewController {
          //   print("Pitch \(pitch)    Roll: \(roll)     Yaw: \(yaw)" )
             
             // now that we have all point, fugure out where its pointing
+                
             if previousOption == nil
                 {
                   buttonA.sendActions(for: .touchUpInside)
@@ -163,7 +193,7 @@ class gameScreen: UIViewController {
                     else if pitch > 1.5
                     {
                 
-                        buttonD.sendActions(for: .touchUpInside)
+                   buttonD.sendActions(for: .touchUpInside)
 
                     }
                     else if( roll > 0.5)
@@ -233,7 +263,7 @@ class gameScreen: UIViewController {
                     
                 }
             }
-            
+ 
             
         }
         

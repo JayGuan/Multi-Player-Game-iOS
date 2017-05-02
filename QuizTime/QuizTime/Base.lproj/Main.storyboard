@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="h0s-H9-cgo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1421" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="h0s-H9-cgo">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -130,7 +130,7 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="o4a-p5-Hel">
                                 <rect key="frame" x="16" y="249" width="343" height="112"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.6223384935282259" green="0.66666666666666663" blue="0.19511017129753655" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.3938292323" green="0.77208739719999997" blue="0.99835759400000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -216,11 +216,32 @@
                                 <rect key="frame" x="199" y="133" width="75" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" text="Hello" textAlignment="center" minimumFontSize="17" background="player1.png" translatesAutoresizingMaskIntoConstraints="NO" id="49N-KB-cp3">
-                                <rect key="frame" x="16" y="72" width="97" height="63"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" background="answerIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="aDF-r0-kRg">
+                                <rect key="frame" x="109" y="78" width="68" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" background="answerIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="1Ea-Bp-tCS">
+                                <rect key="frame" x="202" y="78" width="68" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" background="answerIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="sVZ-5x-Asl">
+                                <rect key="frame" x="291" y="77" width="68" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" background="answerIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="REk-ua-Tv2">
+                                <rect key="frame" x="19" y="78" width="68" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                         </subviews>
@@ -238,6 +259,10 @@
                         <outlet property="p1Name" destination="ZCx-eM-zDc" id="WK1-q2-1UP"/>
                         <outlet property="p2Name" destination="bDK-Tw-aIw" id="wFn-YQ-Mm8"/>
                         <outlet property="p3Name" destination="Hsb-8f-rKo" id="bTr-lT-pQx"/>
+                        <outlet property="player1AnswerText" destination="REk-ua-Tv2" id="gKD-fU-6Di"/>
+                        <outlet property="player2AnswerText" destination="aDF-r0-kRg" id="VGc-Ac-TEK"/>
+                        <outlet property="player3AnswerText" destination="1Ea-Bp-tCS" id="0GT-a9-U0c"/>
+                        <outlet property="player4AnswerText" destination="sVZ-5x-Asl" id="nmY-B5-WVe"/>
                         <outlet property="question" destination="o4a-p5-Hel" id="AxB-if-dD1"/>
                         <outlet property="score1" destination="Hzs-1L-gVA" id="hYZ-UL-WUb"/>
                         <outlet property="score2" destination="8wW-ZR-hFi" id="PCC-n0-ncU"/>
@@ -268,6 +293,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="answerIcon.png" width="200" height="200"/>
         <image name="gameLogo.png" width="478" height="99"/>
         <image name="multi.jpeg" width="225" height="225"/>
         <image name="player1.png" width="256" height="256"/>

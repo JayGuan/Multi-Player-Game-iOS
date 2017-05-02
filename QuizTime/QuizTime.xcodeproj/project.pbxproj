@@ -22,6 +22,7 @@
 		35166D081EAE9DC900B11BF3 /* player2.png in Resources */ = {isa = PBXBuildFile; fileRef = 35166D041EAE9DC900B11BF3 /* player2.png */; };
 		35166D091EAE9DC900B11BF3 /* player1.png in Resources */ = {isa = PBXBuildFile; fileRef = 35166D051EAE9DC900B11BF3 /* player1.png */; };
 		351DECED1EAEE59400EB9856 /* Quiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351DECEC1EAEE59400EB9856 /* Quiz.swift */; };
+		68A108041EB9245100DDF9D7 /* answerIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 68A108031EB9245100DDF9D7 /* answerIcon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		35166D041EAE9DC900B11BF3 /* player2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player2.png; sourceTree = "<group>"; };
 		35166D051EAE9DC900B11BF3 /* player1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player1.png; sourceTree = "<group>"; };
 		351DECEC1EAEE59400EB9856 /* Quiz.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Quiz.swift; path = ../Quiz.swift; sourceTree = "<group>"; };
+		68A108031EB9245100DDF9D7 /* answerIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = answerIcon.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 				35166CE91EAE8BA700B11BF3 /* Main.storyboard */,
 				35166D001EAE944500B11BF3 /* gameScreen.swift */,
 				35166CEF1EAE8BA700B11BF3 /* Assets.xcassets */,
+				68A108031EB9245100DDF9D7 /* answerIcon.png */,
 				35166D021EAE9DC900B11BF3 /* player4.png */,
 				35166D031EAE9DC900B11BF3 /* player3.png */,
 				35166D041EAE9DC900B11BF3 /* player2.png */,
@@ -159,6 +162,7 @@
 				35166CFD1EAE92C500B11BF3 /* single.jpeg in Resources */,
 				35166CFF1EAE935C00B11BF3 /* gameLogo.png in Resources */,
 				35166CFB1EAE92C000B11BF3 /* multi.jpeg in Resources */,
+				68A108041EB9245100DDF9D7 /* answerIcon.png in Resources */,
 				35166CF01EAE8BA700B11BF3 /* Assets.xcassets in Resources */,
 				35166CEB1EAE8BA700B11BF3 /* Main.storyboard in Resources */,
 				35166D071EAE9DC900B11BF3 /* player3.png in Resources */,
