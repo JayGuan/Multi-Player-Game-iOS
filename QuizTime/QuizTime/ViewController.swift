@@ -11,8 +11,9 @@ import MultipeerConnectivity
 class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessionDelegate {
     
     @IBOutlet var gameSelector: UISegmentedControl!
-    var session: MCSession!
     @IBOutlet weak var startGameButton: UIButton!
+    
+    var session: MCSession!
     var peerID: MCPeerID!
     var gameType = 0;
     var quizArray = [Quiz]()
@@ -97,7 +98,9 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         if segue.identifier == "showGameScreen" {
             if let DVC = segue.destination as? gameScreen{
                 //TODO check game type, if multi player then switch all user's screen to game scene
-                notifyOtherUsers()
+                if (gameType == 1) {
+                    notifyOtherUsers()
+                }
                 DVC.gameType = gameType
                 DVC.quizArray = quizArray
                 DVC.connectionNum = self.connectionNum
