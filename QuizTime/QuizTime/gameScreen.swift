@@ -38,7 +38,7 @@ class gameScreen: UIViewController {
     @IBOutlet weak var score4: UILabel!
     
     
-    var motionManager: CMMotionManager!
+    var motionManager = CMMotionManager()
     var quizArray = [Quiz]()
     var currentQuesitonNum = 0
     var currentTopicNum = 0
@@ -114,21 +114,126 @@ class gameScreen: UIViewController {
             return
         }
         let attitude = data?.attitude
-        let userAcceleration = data?.userAcceleration
-        let gravity = data?.gravity
-        let rotation = data?.rotationRate
-        
         
         if let pitch = (attitude?.pitch),
-            let roll = (attitude?.roll),
-            let yaw = (attitude?.yaw),
-            let accX = (userAcceleration?.x),
-            let accY = (userAcceleration?.y),
-            let accZ = (userAcceleration?.z) {
+            let roll = (attitude?.roll)
+             {
             
-            print("Pitch \(pitch)    Roll: \(roll)     Yaw: \(yaw)" )
+         //   print("Pitch \(pitch)    Roll: \(roll)     Yaw: \(yaw)" )
             
             // now that we have all point, fugure out where its pointing
+            if previousOption == nil
+                {
+                  buttonA.sendActions(for: .touchUpInside)
+                }
+            
+            else if previousOption == "A" {
+                 if pitch<0.75
+                 {
+                    print("Select A")
+                    buttonA.sendActions(for: .touchUpInside)
+                }
+                else if pitch > 1.5
+                 {
+                    print("Select C")
+                    buttonC.sendActions(for: .touchUpInside)
+
+                }
+                else if( roll > 0.5)
+                 {
+                    print("Select B")
+                    buttonB.sendActions(for: .touchUpInside)
+
+                }
+                else if (roll < -0.5)
+                 {
+                    print("Select A")
+                    buttonA.sendActions(for: .touchUpInside)
+
+                }
+            }
+            else if( previousOption == "B")
+                 {
+                    if pitch<0.75
+                    {
+                    
+                        buttonB.sendActions(for: .touchUpInside)
+
+                    }
+                    else if pitch > 1.5
+                    {
+                
+                        buttonD.sendActions(for: .touchUpInside)
+
+                    }
+                    else if( roll > 0.5)
+                    {
+                        print("Select B")
+                        buttonB.sendActions(for: .touchUpInside)
+
+                    }
+                    else if (roll < -0.5)
+                    {
+                        print("Select A")
+                        buttonA.sendActions(for: .touchUpInside)
+
+                    }
+                }
+            else if( previousOption == "C")
+            {
+                if pitch<0.75
+                {
+                    print("Select A")
+                    buttonA.sendActions(for: .touchUpInside)
+                    
+                }
+                else if pitch > 1.5
+                {
+                    print("Select C")
+                    buttonC.sendActions(for: .touchUpInside)
+                    
+                }
+                else if( roll > 0.5)
+                {
+                    print("Select D")
+                    buttonD.sendActions(for: .touchUpInside)
+                    
+                }
+                else if (roll < -0.5)
+                {
+                    print("Select C")
+                    buttonC.sendActions(for: .touchUpInside)
+                    
+                }
+            }
+            else if( previousOption == "D")
+            {
+                if pitch<0.75
+                {
+                    print("Select B")
+                    buttonB.sendActions(for: .touchUpInside)
+                    
+                }
+                else if pitch > 1.5
+                {
+                    print("Select D")
+                    buttonD.sendActions(for: .touchUpInside)
+                    
+                }
+                else if( roll > 0.5)
+                {
+                    print("Select D")
+                    buttonD.sendActions(for: .touchUpInside)
+                    
+                }
+                else if (roll < -0.5)
+                {
+                    print("Select C")
+                    buttonC.sendActions(for: .touchUpInside)
+                    
+                }
+            }
+            
             
         }
         
@@ -199,7 +304,7 @@ class gameScreen: UIViewController {
     
     func submitAnswer() {
         //TODO
-        print("answer: [\(previousOption) selected]")
+       // print("answer: [\(previousOption) selected]")
     }
     
     func displayPlayers() {
@@ -227,9 +332,9 @@ class gameScreen: UIViewController {
     }
     
     func displayQuestionAndOptions() {
-        print("question #  on topic # \(quizArray[currentTopicNum].questionSentences[currentQuesitonNum])")
+       // print("question #  on topic # \(quizArray[currentTopicNum].questionSentences[currentQuesitonNum])")
         question.text = quizArray[currentTopicNum].questionSentences[currentQuesitonNum]
-        print("options [\(quizArray[currentTopicNum].options[currentQuesitonNum])]")
+        //print("options [\(quizArray[currentTopicNum].options[currentQuesitonNum])]")
         
         //set tags
         buttonA.tag = 1
@@ -242,12 +347,12 @@ class gameScreen: UIViewController {
         buttonB.setTitle("B: \(quizArray[currentTopicNum].options[currentQuesitonNum]["B"]!)", for: .normal)
         buttonC.setTitle("C: \(quizArray[currentTopicNum].options[currentQuesitonNum]["C"]!)", for: .normal)
         buttonD.setTitle("D: \(quizArray[currentTopicNum].options[currentQuesitonNum]["D"]!)", for: .normal)
-        print("correct [\(quizArray[currentTopicNum].correctOptions[currentQuesitonNum])]")
+       // print("correct [\(quizArray[currentTopicNum].correctOptions[currentQuesitonNum])]")
         
     }
    
     @IBAction func hh(_ sender: Any) {
-         print(quizArray[0].numberOfQuestions)
+         //print(quizArray[0].numberOfQuestions)
         
     }
     
