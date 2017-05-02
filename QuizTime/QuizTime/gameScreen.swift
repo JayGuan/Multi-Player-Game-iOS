@@ -96,9 +96,23 @@ class gameScreen: UIViewController {
 
     }
     
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        
+        if motion == .motionShake {
+            
+            print("shake shake ")
+            // pick a random number from 1 to 4 and use those as pick
+            
+        }
+    }
+    
     func updateDeviceMotion(){
         
         let data = self.motionManager.deviceMotion
+        if(data == nil)
+        {
+            return
+        }
         let attitude = data?.attitude
         let userAcceleration = data?.userAcceleration
         let gravity = data?.gravity
@@ -112,7 +126,7 @@ class gameScreen: UIViewController {
             let accY = (userAcceleration?.y),
             let accZ = (userAcceleration?.z) {
             
-            
+            print("Pitch \(pitch)    Roll: \(roll)     Yaw: \(yaw)" )
             
             // now that we have all point, fugure out where its pointing
             
