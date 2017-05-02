@@ -131,9 +131,6 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     }
     
 
-
-    
-    
     //**********************************************************
     // required functions for MCBrowserViewControllerDelegate
     func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
