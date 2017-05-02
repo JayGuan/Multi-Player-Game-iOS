@@ -33,7 +33,7 @@ class Quiz {
                         if let dictionary = json as? [String:Any]{
                             
                             self.numberOfQuestions = dictionary["numberOfQuestions"] as! Int!
-                          
+                    
                             self.topic = dictionary["topic"] as! String!
                           
                            
