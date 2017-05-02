@@ -12,7 +12,7 @@
 //
 //
 //
-
+import CoreMotion
 import UIKit
 import MultipeerConnectivity
 
@@ -38,7 +38,7 @@ class gameScreen: UIViewController {
     @IBOutlet weak var score4: UILabel!
     
     
-    
+    var motionManager: CMMotionManager!
     var quizArray = [Quiz]()
     var currentQuesitonNum = 0
     var currentTopicNum = 0
@@ -74,6 +74,13 @@ class gameScreen: UIViewController {
         
         displayQuestionAndOptions()
         displayPlayers()
+        
+        self.motionManager.deviceMotionUpdateInterval = 1.0/60.0
+        
+        self.motionManager.startDeviceMotionUpdates(using: .xArbitraryCorrectedZVertical)
+        
+        
+        Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateDeviceMotion), userInfo: nil, repeats: true)
     }
 
     func updateTime() {
@@ -88,6 +95,31 @@ class gameScreen: UIViewController {
         }
 
     }
+    
+    func updateDeviceMotion(){
+        
+        let data = self.motionManager.deviceMotion
+        let attitude = data?.attitude
+        let userAcceleration = data?.userAcceleration
+        let gravity = data?.gravity
+        let rotation = data?.rotationRate
+        
+        
+        if let pitch = (attitude?.pitch),
+            let roll = (attitude?.roll),
+            let yaw = (attitude?.yaw),
+            let accX = (userAcceleration?.x),
+            let accY = (userAcceleration?.y),
+            let accZ = (userAcceleration?.z) {
+            
+            
+            
+            // now that we have all point, fugure out where its pointing
+            
+        }
+        
+    }
+    
     
     func won() {
         //TODO
