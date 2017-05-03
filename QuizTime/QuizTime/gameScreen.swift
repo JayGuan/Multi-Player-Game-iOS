@@ -80,31 +80,8 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         restartBtn.isUserInteractionEnabled = false
         session.delegate = self
         browser.delegate = self
-        // Do any additional setup after loading the view, typically from a nib.
+        restartBtn.alpha = 0.1
 
-      // print("in here \(ViewController().quizArray[0].numberOfQuestions)")
-        //print(quiz.questionSentences[0])
-        /*
-         var numQ = quiz.numberOfQuestions as Int
-         
-         for i in 0...numQ
-         {
-         print(quiz.questionSentences[i])
-         print(quiz.options[i])
-         print(quiz.correctOptions[i])
-         
-         }
-         */
-        /*
-        if (gameType == 1) {
-            // set connection
-            connection.assistant.start()
-            connection.session.delegate = self
-            connection.browser.delegate = self
-        }
-       
-    
-       */
         timer = Timer.scheduledTimer(timeInterval: 1,
                                      target: self,
                                      selector: #selector(self.updateTime),
@@ -185,7 +162,6 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
      
          if previousOption == ""
                 {
-                    
                   selectA()
                 }
          else if(UaccZ < -1.0)
@@ -498,10 +474,11 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         else
         {
             restartBtn.isUserInteractionEnabled = true
+            restartBtn.alpha = 1.0
+
         }
         
     }
-    
     
 
     @IBAction func restart(_ sender: Any) {
@@ -525,11 +502,13 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             previousOption = ""
    
         }
+        resetUserAnswers()
         enableButtons()
         startTime()
         StartMotionTime()
         clearBackgroundColocOnButtons()
         restartBtn.isUserInteractionEnabled = false
+        restartBtn.alpha = 0.1
         
     }
    
