@@ -467,6 +467,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     func showAnswer()
     {
         stopTimer()
+        diableButtons()
         var correctLetter = quizArray[currentTopicNum].correctOptions[currentQuesitonNum]
         
         var ans = quizArray[currentTopicNum].options[currentQuesitonNum][correctLetter]!
@@ -480,8 +481,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     
     func startNextQuestion()
     {
-        print("Quiz num \(currentTopicNum)")
-        print("Quiz num \(currentQuesitonNum)")
+       
         self.submissionNum = 0
         if(currentQuesitonNum+1 < quizArray[currentTopicNum].numberOfQuestions)
         {
@@ -493,11 +493,13 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             clearBackgroundColocOnButtons()
             startTime()
             StartMotionTime()
+            enableButtons()
         }
         else
         {
             restartBtn.isUserInteractionEnabled = true
         }
+        
     }
     
     
@@ -521,9 +523,9 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             displayQuestionAndOptions()
             timeCount = 20
             previousOption = ""
-            
-            
+   
         }
+        enableButtons()
         startTime()
         StartMotionTime()
         clearBackgroundColocOnButtons()
@@ -556,6 +558,39 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         
     }
     
+    func diableButtons()
+    {
+        buttonA.isUserInteractionEnabled=false
+        buttonB.isUserInteractionEnabled=false
+        buttonC.isUserInteractionEnabled=false
+        buttonD.isUserInteractionEnabled=false
+    }
+    func enableButtons()
+    {
+        buttonA.isUserInteractionEnabled=true
+        buttonB.isUserInteractionEnabled=true
+        buttonC.isUserInteractionEnabled=true
+        buttonD.isUserInteractionEnabled=true
+    }
+    
+    func resetUserAnswers()
+    {
+        player1AnswerText.text=""
+        player2AnswerText.text=""
+        player3AnswerText.text=""
+        player4AnswerText.text=""
+        
+        player1Score = 0
+        player2Score = 0
+        player3Score = 0
+        player4Score = 0
+        
+        score1.text=""
+        score2.text=""
+        score3.text=""
+        score4.text=""
+        
+    }
     
     
     //**********************************************************
