@@ -58,11 +58,36 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     var timer: Timer? = nil
     var timeCount = 20
     var previousOption = ""
+    var connection = Connection()
+    var startedGame = false
+    var submissionNum = 0
     var answerTimeCount = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Do any additional setup after loading the view, typically from a nib.
+
+      // print("in here \(ViewController().quizArray[0].numberOfQuestions)")
+        //print(quiz.questionSentences[0])
+        /*
+         var numQ = quiz.numberOfQuestions as Int
+         
+         for i in 0...numQ
+         {
+         print(quiz.questionSentences[i])
+         print(quiz.options[i])
+         print(quiz.correctOptions[i])
+         
+         }
+         */
+        if (gameType == 1) {
+            // set connection
+            connection.assistant.start()
+            connection.session.delegate = self
+            connection.browser.delegate = self
+        }
+       
     
         timer = Timer.scheduledTimer(timeInterval: 1,
                                      target: self,
