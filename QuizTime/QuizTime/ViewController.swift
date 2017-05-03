@@ -21,7 +21,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     var browser: MCBrowserViewController!
     var assistant: MCAdvertiserAssistant!
     var startedGame = false
-    var connection = Connection()
+    //var connection = Connection()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +35,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         assistant.start()
         session.delegate = self
         browser.delegate = self
-        connection = Connection.init(session: self.session, peerID: self.peerID, browser: self.browser, assistant: self.assistant)
+        //connection = Connection.init(session: self.session, peerID: self.peerID, browser: self.browser, assistant: self.assistant)
         
         let quiz = Quiz(jsonURL:"http://www.people.vcu.edu/~ebulut/jsonFiles/quiz1.json")
        let quiz2 = Quiz(jsonURL:"http://www.people.vcu.edu/~ebulut/jsonFiles/quiz2.json")
@@ -102,7 +102,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
                 if (gameType == 1) {
                     notifyOtherUsers()
                 }
-                DVC.connection = self.connection
+                //DVC.connection = self.connection
                 DVC.gameType = gameType
                 DVC.quizArray = quizArray
                 DVC.connectionNum = self.connectionNum

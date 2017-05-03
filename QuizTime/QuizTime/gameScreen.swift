@@ -39,12 +39,8 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     
     
     @IBOutlet weak var player1AnswerText: UITextField!
-    
     @IBOutlet weak var player2AnswerText: UITextField!
-    
     @IBOutlet weak var player3AnswerText: UITextField!
-    
-    
     @IBOutlet weak var player4AnswerText: UITextField!
     
     
@@ -80,13 +76,14 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
          
          }
          */
+        /*
         if (gameType == 1) {
             // set connection
             connection.assistant.start()
             connection.session.delegate = self
             connection.browser.delegate = self
         }
-       
+       */
         timer = Timer.scheduledTimer(timeInterval: 1,
                                      target: self,
                                      selector: #selector(self.updateTime),
@@ -375,6 +372,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         submissionNum += 1
         let answer = previousOption
         sendAnswerToOthers(answer: answer)
+        player1AnswerText.text = "\(answer)"
         //highlight submitted answer
         
         //TODO
@@ -382,6 +380,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     }
     
     func sendAnswerToOthers(answer: String) {
+        /*
         let msg = answer
         let dataToSend =  NSKeyedArchiver.archivedData(withRootObject: msg)
         do{
@@ -390,6 +389,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         catch let err {
             //print("Error in sending data \(err)")
         }
+ */
     }
     
     func displayPlayers() {
@@ -494,6 +494,13 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
                         self.startedGame = true
                     }
                 }
+                else if (receivedString == "A" ||
+                    receivedString == "B" ||
+                    receivedString == "C" ||
+                    receivedString == "D" ) {
+                    //print("answer received: [\(receivedString)]")
+                    //print("answer correct: [\(self.quizArray[self.currentTopicNum].correctOptions[self.currentQuesitonNum])]")
+                }
             }
             
         })
@@ -506,6 +513,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         switch state {
         case MCSessionState.connected:
             connectionNum += 1
+            print("who connectioned: \(peerID)")
             print("Connection Test: [\(connectionNum)]")
             print("Connected: \(peerID.displayName)")
             
