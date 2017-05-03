@@ -58,25 +58,12 @@ class gameScreen: UIViewController {
     var timer: Timer? = nil
     var timeCount = 20
     var previousOption = ""
+    var answerTimeCount = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view, typically from a nib.
-
-      // print("in here \(ViewController().quizArray[0].numberOfQuestions)")
-        //print(quiz.questionSentences[0])
-        /*
-         var numQ = quiz.numberOfQuestions as Int
-         
-         for i in 0...numQ
-         {
-         print(quiz.questionSentences[i])
-         print(quiz.options[i])
-         print(quiz.correctOptions[i])
-         
-         }
-         */
+    
         timer = Timer.scheduledTimer(timeInterval: 1,
                                      target: self,
                                      selector: #selector(self.updateTime),
@@ -329,6 +316,7 @@ class gameScreen: UIViewController {
     }
     
     @IBAction func clickedB(_ sender: UIButton) {
+        showAnswer()
         if previousOption == "B" {
             submitAnswer()
         }
@@ -402,6 +390,20 @@ class gameScreen: UIViewController {
             break
         }
     }
+    
+    func showAnswer()
+    {
+      
+        var correctLetter = quizArray[currentTopicNum].correctOptions[currentQuesitonNum]
+        
+       var ans = quizArray[currentTopicNum].options[currentQuesitonNum][correctLetter]!
+        question.text = "Answer: \(ans)"
+        let when = DispatchTime.now() + 3
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.question.text = "Next question"
+
+        }
+            }
     
     func displayQuestionAndOptions() {
        // print("question #  on topic # \(quizArray[currentTopicNum].questionSentences[currentQuesitonNum])")
