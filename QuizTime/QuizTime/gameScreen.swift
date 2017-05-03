@@ -142,20 +142,29 @@ class gameScreen: UIViewController {
         {
             return
         }
+        
         let attitude = data?.attitude
+        let userAcceleration = data?.userAcceleration
         
         if let pitch = (attitude?.pitch),
-            let roll = (attitude?.roll)
+            let roll = (attitude?.roll),
+            let yaw = (attitude?.yaw),
+            let UaccX = (userAcceleration?.x),
+             let UaccY = (userAcceleration?.y),
+             let UaccZ = (userAcceleration?.z)
              {
             
-         //   print("Pitch \(pitch)    Roll: \(roll)     Yaw: \(yaw)" )
+         //   print("X \(UaccX)  Y: \(UaccY)   Z \(UaccZ)"  )
             
-            // now that we have all point, fugure out where its pointing
-                
             if previousOption == nil
                 {
                   selectA()
                 }
+            else if(yaw>1.0 || yaw < -1.0)
+            {
+                //submit
+            }
+       
             
             else if previousOption == "A" {
                  if pitch<0.75
@@ -208,7 +217,8 @@ class gameScreen: UIViewController {
                         selectA()
 
                     }
-                }
+            
+            }
             else if( previousOption == "C")
             {
                 if pitch<0.75
