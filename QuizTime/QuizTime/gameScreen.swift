@@ -179,13 +179,26 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
                 }
          else if(UaccZ < -1.0)
          {
+            // when u r doing motion stuff, after selection it will set previousOption to that button A B C D and clicked ABCD will check if previousOption is set to say A then if it is it will call submit answer
             print("Z submit")
-            submitAnswer()
+            switch previousOption {
+                case "A": clickedA(buttonA)
+                case "B": clickedB(buttonB)
+                case "C": clickedC(buttonC)
+                case "D": clickedD(buttonD)
+            default: break
+            }
          }
          else if(yaw>1.2 || yaw < -1.2)
          {
             print("Yaw submit")
-            submitAnswer()
+            switch previousOption {
+            case "A": clickedA(buttonA)
+            case "B": clickedB(buttonB)
+            case "C": clickedC(buttonC)
+            case "D": clickedD(buttonD)
+            default: break
+            }
          }
            
         else if previousOption == "A" {
@@ -383,6 +396,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         // Check to make sure everyone has an answer in before calling showAnswer
         stopMotionTime()
         showAnswer()
+        // TODO make sure everyone submitted answer
         //TODO
        // print("answer: [\(previousOption) selected]")
     }
