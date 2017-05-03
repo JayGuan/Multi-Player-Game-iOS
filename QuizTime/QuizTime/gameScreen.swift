@@ -118,19 +118,19 @@ class gameScreen: UIViewController {
             
             if num==1
             {
-                buttonA.sendActions(for: .touchUpInside)
+                selectA()
             }
             else if num == 2
             {
-                buttonB.sendActions(for: .touchUpInside)
+                selectB()
             }
             else if num == 3
             {
-                buttonC.sendActions(for: .touchUpInside)
+                selectC()
             }
             else if num == 4
             {
-                buttonD.sendActions(for: .touchUpInside)
+                selectD()
             }
         }
     }
@@ -154,31 +154,31 @@ class gameScreen: UIViewController {
                 
             if previousOption == nil
                 {
-                  buttonA.sendActions(for: .touchUpInside)
+                  selectA()
                 }
             
             else if previousOption == "A" {
                  if pitch<0.75
                  {
                     print("Select A")
-                    buttonA.sendActions(for: .touchUpInside)
+                    selectA()
                 }
                 else if pitch > 1.5
                  {
                     print("Select C")
-                    buttonC.sendActions(for: .touchUpInside)
+                    selectC()
 
                 }
                 else if( roll > 0.5)
                  {
                     print("Select B")
-                    buttonB.sendActions(for: .touchUpInside)
+                    selectB()
 
                 }
                 else if (roll < -0.5)
                  {
                     print("Select A")
-                    buttonA.sendActions(for: .touchUpInside)
+                    selectA()
 
                 }
             }
@@ -187,25 +187,25 @@ class gameScreen: UIViewController {
                     if pitch<0.75
                     {
                     
-                        buttonB.sendActions(for: .touchUpInside)
+                        selectB()
 
                     }
                     else if pitch > 1.5
                     {
                 
-                   buttonD.sendActions(for: .touchUpInside)
+                   selectD()
 
                     }
                     else if( roll > 0.5)
                     {
                         print("Select B")
-                        buttonB.sendActions(for: .touchUpInside)
+                        selectB()
 
                     }
                     else if (roll < -0.5)
                     {
                         print("Select A")
-                        buttonA.sendActions(for: .touchUpInside)
+                        selectA()
 
                     }
                 }
@@ -214,25 +214,25 @@ class gameScreen: UIViewController {
                 if pitch<0.75
                 {
                     print("Select A")
-                    buttonA.sendActions(for: .touchUpInside)
+                    selectA()
                     
                 }
                 else if pitch > 1.5
                 {
                     print("Select C")
-                    buttonC.sendActions(for: .touchUpInside)
+                    selectC()
                     
                 }
                 else if( roll > 0.5)
                 {
                     print("Select D")
-                    buttonD.sendActions(for: .touchUpInside)
+                    selectD()
                     
                 }
                 else if (roll < -0.5)
                 {
                     print("Select C")
-                    buttonC.sendActions(for: .touchUpInside)
+                    selectC()
                     
                 }
             }
@@ -241,25 +241,25 @@ class gameScreen: UIViewController {
                 if pitch<0.75
                 {
                     print("Select B")
-                    buttonB.sendActions(for: .touchUpInside)
+                    selectB()
                     
                 }
                 else if pitch > 1.5
                 {
                     print("Select D")
-                    buttonD.sendActions(for: .touchUpInside)
+                    selectD()
                     
                 }
                 else if( roll > 0.5)
                 {
                     print("Select D")
-                    buttonD.sendActions(for: .touchUpInside)
+                    selectD()
                     
                 }
                 else if (roll < -0.5)
                 {
                     print("Select C")
-                    buttonC.sendActions(for: .touchUpInside)
+                    selectC()
                     
                 }
             }
@@ -281,6 +281,30 @@ class gameScreen: UIViewController {
     func stopTimer() {
         timer?.invalidate()
         timer = nil
+    }
+    
+    func selectA() {
+        previousOption = "A"
+        clearBackgroundColocOnButtons()
+        buttonA.backgroundColor = UIColor.green
+    }
+    
+    func selectB() {
+        previousOption = "B"
+        clearBackgroundColocOnButtons()
+        buttonB.backgroundColor = UIColor.green
+    }
+    
+    func selectC(){
+        previousOption = "C"
+        clearBackgroundColocOnButtons()
+        buttonC.backgroundColor = UIColor.green
+    }
+    
+    func selectD() {
+        previousOption = "D"
+        clearBackgroundColocOnButtons()
+        buttonD.backgroundColor = UIColor.green
     }
     
     @IBAction func clickedA(_ sender: UIButton) {
@@ -333,6 +357,8 @@ class gameScreen: UIViewController {
     }
     
     func submitAnswer() {
+        print("answer submitted")
+        
         //TODO
        // print("answer: [\(previousOption) selected]")
     }
@@ -343,18 +369,24 @@ class gameScreen: UIViewController {
             //3 people
             img4.alpha = 0.1
             p3Name.alpha = 0.1
+            player4AnswerText.alpha = 0.1
         case 1:
             img4.alpha = 0.1
             p3Name.alpha = 0.1
+            player4AnswerText.alpha = 0.1
             img3.alpha = 0.1
             p2Name.alpha = 0.1
+            player3AnswerText.alpha = 0.1
         case 0:
             img4.alpha = 0.1
             p3Name.alpha = 0.1
+            player4AnswerText.alpha = 0.1
             img3.alpha = 0.1
             p2Name.alpha = 0.1
+            player3AnswerText.alpha = 0.1
             img2.alpha = 0.1
             p1Name.alpha = 0.1
+            player2AnswerText.alpha = 0.1
         default:
             // 4 players
             break
