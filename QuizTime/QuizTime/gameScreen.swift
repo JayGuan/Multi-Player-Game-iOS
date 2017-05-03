@@ -44,6 +44,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     @IBOutlet weak var player4AnswerText: UITextField!
     
     
+    @IBOutlet var restartBtn: UIButton!
     
     var motionManager = CMMotionManager()
     var quizArray = [Quiz]()
@@ -64,6 +65,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        restartBtn.isUserInteractionEnabled = false
         // Do any additional setup after loading the view, typically from a nib.
 
       // print("in here \(ViewController().quizArray[0].numberOfQuestions)")
@@ -112,6 +114,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             timeCount -= 1
         }
         else {
+            submitAnswer()
             stopTimer()
             won()
             lost()
@@ -165,13 +168,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
              let UaccY = (userAcceleration?.y),
              let UaccZ = (userAcceleration?.z)
              {
-            
-          // print("\(UaccZ)  "  )
-                
-            
-        
-                
-                
+     
          if previousOption == ""
                 {
                     
@@ -179,8 +176,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
                 }
          else if(UaccZ < -1.0)
          {
-            // when u r doing motion stuff, after selection it will set previousOption to that button A B C D and clicked ABCD will check if previousOption is set to say A then if it is it will call submit answer
-            print("Z submit")
+            
             switch previousOption {
                 case "A": clickedA(buttonA)
                 case "B": clickedB(buttonB)
@@ -191,7 +187,6 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
          }
          else if(yaw>1.2 || yaw < -1.2)
          {
-            print("Yaw submit")
             switch previousOption {
             case "A": clickedA(buttonA)
             case "B": clickedB(buttonB)
@@ -268,9 +263,6 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
                 }
             }
          
-                
- 
-            
         }
         
     }
@@ -345,7 +337,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     }
     
     @IBAction func clickedB(_ sender: UIButton) {
-        showAnswer()
+      
         if previousOption == "B" {
             submitAnswer()
             buttonB.backgroundColor = UIColor.red
@@ -450,7 +442,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         var correctLetter = quizArray[currentTopicNum].correctOptions[currentQuesitonNum]
         
         var ans = quizArray[currentTopicNum].options[currentQuesitonNum][correctLetter]!
-        question.text = "Answer: \(ans)"
+        question.text = "Correct Answer: \(ans)"
         let when = DispatchTime.now() + 3
         DispatchQueue.main.asyncAfter(deadline: when) {
             
@@ -470,12 +462,25 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             displayQuestionAndOptions()
             timeCount = 20
             previousOption = ""
+            clearBackgroundColocOnButtons()
+            startTime()
+            StartMotionTime()
             
         }
-        else if(currentTopicNum < totalNumQuizzes && currentTopicNum+1 != 2)
+        else
+        {
+            restartBtn.isUserInteractionEnabled = true
+        }
+    }
+    
+    
+
+    @IBAction func restart(_ sender: Any) {
+        
+         if(currentTopicNum==0)
         {
             print("topic change")
-            currentTopicNum+=1
+            currentTopicNum=1
             currentQuesitonNum=0
             displayQuestionAndOptions()
             timeCount = 20
@@ -483,17 +488,22 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             
         }
         else{
-            print("game over")
-         //   restartBtn.isUserInteractionEnabled = true
-            // give user uption to restart
+            print("topic change")
+            currentTopicNum=0
+            currentQuesitonNum=0
+            displayQuestionAndOptions()
+            timeCount = 20
+            previousOption = ""
+            
+            
         }
         startTime()
         StartMotionTime()
         clearBackgroundColocOnButtons()
+        restartBtn.isUserInteractionEnabled = false
         
     }
-
-    
+   
     func displayQuestionAndOptions() {
        // print("question #  on topic # \(quizArray[currentTopicNum].questionSentences[currentQuesitonNum])")
         question.text = quizArray[currentTopicNum].questionSentences[currentQuesitonNum]
