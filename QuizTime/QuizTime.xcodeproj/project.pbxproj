@@ -23,6 +23,7 @@
 		35166D091EAE9DC900B11BF3 /* player1.png in Resources */ = {isa = PBXBuildFile; fileRef = 35166D051EAE9DC900B11BF3 /* player1.png */; };
 		351DECED1EAEE59400EB9856 /* Quiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351DECEC1EAEE59400EB9856 /* Quiz.swift */; };
 		68A108041EB9245100DDF9D7 /* answerIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 68A108031EB9245100DDF9D7 /* answerIcon.png */; };
+		68CEAA741EBA384100A2D97C /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68CEAA731EBA384100A2D97C /* Connection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		35166D051EAE9DC900B11BF3 /* player1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player1.png; sourceTree = "<group>"; };
 		351DECEC1EAEE59400EB9856 /* Quiz.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Quiz.swift; path = ../Quiz.swift; sourceTree = "<group>"; };
 		68A108031EB9245100DDF9D7 /* answerIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = answerIcon.png; sourceTree = "<group>"; };
+		68CEAA731EBA384100A2D97C /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 				35166CF11EAE8BA700B11BF3 /* LaunchScreen.storyboard */,
 				35166CF41EAE8BA700B11BF3 /* Info.plist */,
 				35166CEC1EAE8BA700B11BF3 /* QuizTime.xcdatamodeld */,
+				68CEAA731EBA384100A2D97C /* Connection.swift */,
 			);
 			path = QuizTime;
 			sourceTree = "<group>";
@@ -179,6 +182,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				35166CE81EAE8BA700B11BF3 /* ViewController.swift in Sources */,
+				68CEAA741EBA384100A2D97C /* Connection.swift in Sources */,
 				351DECED1EAEE59400EB9856 /* Quiz.swift in Sources */,
 				35166D011EAE944500B11BF3 /* gameScreen.swift in Sources */,
 				35166CEE1EAE8BA700B11BF3 /* QuizTime.xcdatamodeld in Sources */,
