@@ -72,7 +72,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     var player1ID : MCPeerID!
     var player2ID: MCPeerID!
     var player3ID: MCPeerID!
-    
+    var restarted = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -400,7 +400,6 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         if (correctAnswer == answer) {
             player1Score += 1
         }
-        sendAnswerToOthers(answer: answer)
         player1AnswerText.text = "\(answer)"
         //highlight submitted answer
         // Check to make sure everyone has an answer in before calling showAnswer
@@ -416,6 +415,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             showAnswer()
             self.updateScoreView()
         }
+        sendAnswerToOthers(answer: answer)
         //TODO make sure everyone submitted answer
         //TODO
        // print("answer: [\(previousOption) selected]")
@@ -504,6 +504,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
 
     @IBAction func restart(_ sender: Any) {
         self.submissionNum = 0
+        restarted = false;
          if(currentTopicNum==0)
         {
             print("topic change")
@@ -524,13 +525,26 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             
             
         }
+        stopTimer()
+        stopMotionTime()
         startTime()
         StartMotionTime()
         clearBackgroundColocOnButtons()
         restartBtn.isUserInteractionEnabled = false
-        
+        otherUserRestart()
     }
    
+    func otherUserRestart() {
+        let msg = "restart"
+        let dataToSend =  NSKeyedArchiver.archivedData(withRootObject: msg)
+        do{
+            try session.send(dataToSend, toPeers: session.connectedPeers, with: .unreliable)
+        }
+        catch let err {
+            //print("Error in sending data \(err)")
+        }
+    }
+    
     func displayQuestionAndOptions() {
        // print("question #  on topic # \(quizArray[currentTopicNum].questionSentences[currentQuesitonNum])")
         question.text = quizArray[currentTopicNum].questionSentences[currentQuesitonNum]
@@ -610,6 +624,10 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
                         print("showAnswer from receviving")
                         self.showAnswer()
                     }
+                }
+                else if (receivedString == "restart" && (!self.restarted)) {
+                    self.restartBtn.sendActions(for: .touchUpInside)
+                    self.restarted = true
                 }
             }
             
