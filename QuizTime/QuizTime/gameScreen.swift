@@ -57,6 +57,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     var connection = Connection()
     var startedGame = false
     var submissionNum = 0
+    var answerTimeCount = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -149,20 +150,29 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         {
             return
         }
+        
         let attitude = data?.attitude
+        let userAcceleration = data?.userAcceleration
         
         if let pitch = (attitude?.pitch),
-            let roll = (attitude?.roll)
+            let roll = (attitude?.roll),
+            let yaw = (attitude?.yaw),
+            let UaccX = (userAcceleration?.x),
+             let UaccY = (userAcceleration?.y),
+             let UaccZ = (userAcceleration?.z)
              {
             
-         //   print("Pitch \(pitch)    Roll: \(roll)     Yaw: \(yaw)" )
+         //   print("X \(UaccX)  Y: \(UaccY)   Z \(UaccZ)"  )
             
-            // now that we have all point, fugure out where its pointing
-                
             if previousOption == nil
                 {
                   selectA()
                 }
+            else if(yaw>1.0 || yaw < -1.0)
+            {
+                //submit
+            }
+       
             
             else if previousOption == "A" {
                  if pitch<0.75
@@ -215,7 +225,8 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
                         selectA()
 
                     }
-                }
+            
+            }
             else if( previousOption == "C")
             {
                 if pitch<0.75
@@ -327,6 +338,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     }
     
     @IBAction func clickedB(_ sender: UIButton) {
+        showAnswer()
         if previousOption == "B" {
             submitAnswer()
             buttonB.backgroundColor = UIColor.red
@@ -421,6 +433,20 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             break
         }
     }
+    
+    func showAnswer()
+    {
+      
+        var correctLetter = quizArray[currentTopicNum].correctOptions[currentQuesitonNum]
+        
+       var ans = quizArray[currentTopicNum].options[currentQuesitonNum][correctLetter]!
+        question.text = "Answer: \(ans)"
+        let when = DispatchTime.now() + 3
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.question.text = "Next question"
+
+        }
+            }
     
     func displayQuestionAndOptions() {
        // print("question #  on topic # \(quizArray[currentTopicNum].questionSentences[currentQuesitonNum])")
