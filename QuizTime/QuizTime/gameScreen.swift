@@ -55,15 +55,28 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     var motionTime:Timer? = nil
     var timeCount = 20
     var previousOption = ""
-    var connection = Connection()
+    //var connection = Connection()
     var startedGame = false
     var submissionNum = 0
     var answerTimeCount = -1
     var totalNumQuizzes = 2
+    var session: MCSession!
+    var peerID: MCPeerID!
+    var browser: MCBrowserViewController!
+    var assistant: MCAdvertiserAssistant!
+    var player1Score = 0
+    var player2Score = 0
+    var player3Score = 0
+    var player4Score = 0
+    var player1ID : MCPeerID!
+    var player2ID: MCPeerID!
+    var player3ID: MCPeerID!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        session.delegate = self
+        browser.delegate = self
         // Do any additional setup after loading the view, typically from a nib.
 
       // print("in here \(ViewController().quizArray[0].numberOfQuestions)")
@@ -345,7 +358,6 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     }
     
     @IBAction func clickedB(_ sender: UIButton) {
-        showAnswer()
         if previousOption == "B" {
             submitAnswer()
             buttonB.backgroundColor = UIColor.red
@@ -389,29 +401,33 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     func submitAnswer() {
         print("answer submitted")
         submissionNum += 1
+        let correctAnswer = self.quizArray[self.currentTopicNum].correctOptions[self.currentQuesitonNum]
         let answer = previousOption
+        if (correctAnswer == answer) {
+            player1Score += 1
+        }
         sendAnswerToOthers(answer: answer)
         player1AnswerText.text = "\(answer)"
         //highlight submitted answer
         // Check to make sure everyone has an answer in before calling showAnswer
         stopMotionTime()
         showAnswer()
-        // TODO make sure everyone submitted answer
+        //TODO make sure everyone submitted answer
         //TODO
        // print("answer: [\(previousOption) selected]")
     }
     
     func sendAnswerToOthers(answer: String) {
-        /*
+        
         let msg = answer
         let dataToSend =  NSKeyedArchiver.archivedData(withRootObject: msg)
         do{
-            try connection.session.send(dataToSend, toPeers: connection.session.connectedPeers, with: .unreliable)
+            try self.session.send(dataToSend, toPeers: self.session.connectedPeers, with: .unreliable)
         }
         catch let err {
             //print("Error in sending data \(err)")
         }
- */
+ 
     }
     
     func displayPlayers() {
@@ -558,24 +574,72 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             
             if let receivedString = NSKeyedUnarchiver.unarchiveObject(with: data) as? String{
                 print("receivedString = [\(receivedString)]")
-                if receivedString == "begin" {
-                    print("entered")
-                    if (!self.startedGame) {
-                        self.gameType = 1
-                        self.performSegue(withIdentifier: "showGameScreen", sender: self)
-                        self.startedGame = true
-                    }
-                }
-                else if (receivedString == "A" ||
+                if (receivedString == "A" ||
                     receivedString == "B" ||
                     receivedString == "C" ||
                     receivedString == "D" ) {
-                    //print("answer received: [\(receivedString)]")
-                    //print("answer correct: [\(self.quizArray[self.currentTopicNum].correctOptions[self.currentQuesitonNum])]")
+                    print("answer received: [\(receivedString)]")
+                    print("playerID [\(peerID)]")
+                    self.updateSubmissionView(peerID: peerID, receivedString: receivedString)
+                    self.submissionNum += 1
+                    self.updateScore(peerID: peerID, receivedString: receivedString)
+                    let totalPlayers = self.connectionNum + 1
+                    if (self.submissionNum == totalPlayers) {
+                        self.updateScoreView()
+                    }
                 }
             }
             
         })
+    }
+    
+    func updateSubmissionView(peerID: MCPeerID, receivedString: String) {
+        switch peerID {
+        case player1ID:
+            self.player2AnswerText.text = receivedString
+        case player2ID:
+            self.player3AnswerText.text = receivedString
+        case player3ID:
+            self.player4AnswerText.text = receivedString
+        default:
+            break
+        }
+
+    }
+    
+    func updateScore(peerID: MCPeerID, receivedString: String) {
+        let correctAnswer = self.quizArray[self.currentTopicNum].correctOptions[self.currentQuesitonNum]
+        if (receivedString == correctAnswer) {
+            switch peerID {
+            case player1ID:
+                self.player2Score += 1
+            case player2ID:
+                self.player3Score += 1
+            case player3ID:
+                self.player4Score += 1
+            default:
+                break
+            }
+        }
+    }
+    
+    func updateScoreView() {
+        switch connectionNum {
+        case 1:
+            score1.text = "\(player1Score)"
+            score2.text = "\(player2Score)"
+        case 2:
+            score1.text = "\(player1Score)"
+            score2.text = "\(player2Score)"
+            score3.text = "\(player3Score)"
+        case 3:
+            score1.text = "\(player1Score)"
+            score2.text = "\(player2Score)"
+            score3.text = "\(player3Score)"
+            score4.text = "\(player4Score)"
+        default: break
+            
+        }
     }
     
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
@@ -588,7 +652,6 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             print("who connectioned: \(peerID)")
             print("Connection Test: [\(connectionNum)]")
             print("Connected: \(peerID.displayName)")
-            
         case MCSessionState.connecting:
             print("Connecting: \(peerID.displayName)")
             

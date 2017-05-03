@@ -21,6 +21,9 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     var browser: MCBrowserViewController!
     var assistant: MCAdvertiserAssistant!
     var startedGame = false
+    var player1ID : MCPeerID!
+    var player2ID: MCPeerID!
+    var player3ID: MCPeerID!
     //var connection = Connection()
     
     override func viewDidLoad() {
@@ -38,7 +41,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         //connection = Connection.init(session: self.session, peerID: self.peerID, browser: self.browser, assistant: self.assistant)
         
         let quiz = Quiz(jsonURL:"http://www.people.vcu.edu/~ebulut/jsonFiles/quiz1.json")
-       let quiz2 = Quiz(jsonURL:"http://www.people.vcu.edu/~ebulut/jsonFiles/quiz2.json")
+        let quiz2 = Quiz(jsonURL:"http://www.people.vcu.edu/~ebulut/jsonFiles/quiz2.json")
         
        quizArray.append(quiz)
        quizArray.append(quiz2)
@@ -106,6 +109,13 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
                 DVC.gameType = gameType
                 DVC.quizArray = quizArray
                 DVC.connectionNum = self.connectionNum
+                DVC.session = self.session
+                DVC.peerID = self.peerID
+                DVC.browser = self.browser
+                DVC.assistant = self.assistant
+                DVC.player1ID = self.player1ID
+                DVC.player2ID = self.player2ID
+                DVC.player3ID = self.player3ID
             }
         }
     }
@@ -192,7 +202,13 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
             connectionNum += 1
             print("Connection Test: [\(connectionNum)]")
             print("Connected: \(peerID.displayName)")
-            
+            switch connectionNum {
+            case 1: player1ID = peerID
+            case 2: player2ID = peerID
+            case 3: player3ID = peerID
+            default:
+                break
+            }
         case MCSessionState.connecting:
             print("Connecting: \(peerID.displayName)")
             
