@@ -16,7 +16,7 @@ import CoreMotion
 import UIKit
 import MultipeerConnectivity
 
-class gameScreen: UIViewController {
+class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionDelegate{
     
     @IBOutlet weak var timerAndMessage: UILabel!
     @IBOutlet weak var p3Name: UILabel!
@@ -307,6 +307,7 @@ class gameScreen: UIViewController {
     @IBAction func clickedA(_ sender: UIButton) {
         if previousOption == "A" {
             submitAnswer()
+            buttonA.backgroundColor = UIColor.red
         }
         else {
             previousOption = "A"
@@ -319,6 +320,7 @@ class gameScreen: UIViewController {
         showAnswer()
         if previousOption == "B" {
             submitAnswer()
+            buttonB.backgroundColor = UIColor.red
         }
         else {
             previousOption = "B"
@@ -329,6 +331,7 @@ class gameScreen: UIViewController {
     @IBAction func clickedC(_ sender: UIButton) {
         if previousOption == "C" {
             submitAnswer()
+            buttonC.backgroundColor = UIColor.red
         }
         else {
             previousOption = "C"
@@ -339,6 +342,7 @@ class gameScreen: UIViewController {
     @IBAction func clickedD(_ sender: UIButton) {
         if previousOption == "D" {
             submitAnswer()
+            buttonD.backgroundColor = UIColor.red
         }
         else {
             previousOption = "D"
@@ -356,9 +360,24 @@ class gameScreen: UIViewController {
     
     func submitAnswer() {
         print("answer submitted")
+        submissionNum += 1
+        let answer = previousOption
+        sendAnswerToOthers(answer: answer)
+        //highlight submitted answer
         
         //TODO
        // print("answer: [\(previousOption) selected]")
+    }
+    
+    func sendAnswerToOthers(answer: String) {
+        let msg = answer
+        let dataToSend =  NSKeyedArchiver.archivedData(withRootObject: msg)
+        do{
+            try connection.session.send(dataToSend, toPeers: connection.session.connectedPeers, with: .unreliable)
+        }
+        catch let err {
+            //print("Error in sending data \(err)")
+        }
     }
     
     func displayPlayers() {
@@ -430,6 +449,77 @@ class gameScreen: UIViewController {
         
     }
     
+    
+    
+    //**********************************************************
+    // required functions for MCBrowserViewControllerDelegate
+    func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
+        // Called when the browser view controller is dismissed
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
+        // Called when the browser view controller is cancelled
+        dismiss(animated: true, completion: nil)
+    }
+    //**********************************************************
+    
+    
+    
+    
+    //**********************************************************
+    // required functions for MCSessionDelegate
+    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL, withError error: Error?) {
+        print("resource: [\(resourceName)]")
+    }
+    
+    func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
+        
+    }
+    
+    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
+        
+    }
+    
+    func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
+        
+        // this needs to be run on the main thread
+        DispatchQueue.main.async(execute: {
+            
+            if let receivedString = NSKeyedUnarchiver.unarchiveObject(with: data) as? String{
+                print("receivedString = [\(receivedString)]")
+                if receivedString == "begin" {
+                    print("entered")
+                    if (!self.startedGame) {
+                        self.gameType = 1
+                        self.performSegue(withIdentifier: "showGameScreen", sender: self)
+                        self.startedGame = true
+                    }
+                }
+            }
+            
+        })
+    }
+    
+    func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
+        
+        // Called when a connected peer changes state (for example, goes offline)
+        
+        switch state {
+        case MCSessionState.connected:
+            connectionNum += 1
+            print("Connection Test: [\(connectionNum)]")
+            print("Connected: \(peerID.displayName)")
+            
+        case MCSessionState.connecting:
+            print("Connecting: \(peerID.displayName)")
+            
+        case MCSessionState.notConnected:
+            print("Not Connected: \(peerID.displayName)")
+        }
+        
+    }
+    //**********************************************************
     
     
     override func didReceiveMemoryWarning() {
