@@ -179,6 +179,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.31206015058245262" green="0.66666666666666663" blue="0.23445978547232552" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Restart"/>
+                                <connections>
+                                    <action selector="restart:" destination="0B8-Uh-r5u" eventType="touchUpInside" id="Bhp-Gr-Mtb"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You Won!!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r56-lF-iB6">
                                 <rect key="frame" x="124" y="544" width="127" height="35"/>
@@ -212,28 +215,28 @@
                                 <rect key="frame" x="199" y="133" width="75" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" background="answerIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="aDF-r0-kRg">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" background="answerIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="aDF-r0-kRg">
                                 <rect key="frame" x="109" y="78" width="68" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" background="answerIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="1Ea-Bp-tCS">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" background="answerIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="1Ea-Bp-tCS">
                                 <rect key="frame" x="202" y="78" width="68" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" background="answerIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="sVZ-5x-Asl">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" background="answerIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="sVZ-5x-Asl">
                                 <rect key="frame" x="291" y="77" width="68" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" background="answerIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="REk-ua-Tv2">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" background="answerIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="REk-ua-Tv2">
                                 <rect key="frame" x="19" y="78" width="68" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
@@ -274,6 +277,7 @@
                         <outlet property="player3AnswerText" destination="1Ea-Bp-tCS" id="0GT-a9-U0c"/>
                         <outlet property="player4AnswerText" destination="sVZ-5x-Asl" id="nmY-B5-WVe"/>
                         <outlet property="question" destination="o4a-p5-Hel" id="AxB-if-dD1"/>
+                        <outlet property="restartBtn" destination="wc9-dn-Khz" id="mcw-9t-ZOO"/>
                         <outlet property="score1" destination="Hzs-1L-gVA" id="hYZ-UL-WUb"/>
                         <outlet property="score2" destination="8wW-ZR-hFi" id="PCC-n0-ncU"/>
                         <outlet property="score3" destination="2G1-Xu-CtB" id="J3c-30-Cgf"/>
@@ -289,7 +293,7 @@
         <scene sceneID="uAL-N3-9sT">
             <objects>
                 <navigationController id="h0s-H9-cgo" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="JGQ-6T-8PV">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="JGQ-6T-8PV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
