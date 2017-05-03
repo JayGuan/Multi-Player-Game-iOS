@@ -503,12 +503,16 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             previousOption = ""
    
         }
+        resetUserAnswers()
+        enableButtons()
         stopTimer()
         stopMotionTime()
         startTime()
         StartMotionTime()
         clearBackgroundColocOnButtons()
         restartBtn.isUserInteractionEnabled = false
+        restartBtn.alpha = 0.1
+        
         otherUserRestart()
     }
    
