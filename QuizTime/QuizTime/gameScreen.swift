@@ -80,31 +80,8 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         restartBtn.isUserInteractionEnabled = false
         session.delegate = self
         browser.delegate = self
-        // Do any additional setup after loading the view, typically from a nib.
+        restartBtn.alpha = 0.1
 
-      // print("in here \(ViewController().quizArray[0].numberOfQuestions)")
-        //print(quiz.questionSentences[0])
-        /*
-         var numQ = quiz.numberOfQuestions as Int
-         
-         for i in 0...numQ
-         {
-         print(quiz.questionSentences[i])
-         print(quiz.options[i])
-         print(quiz.correctOptions[i])
-         
-         }
-         */
-        /*
-        if (gameType == 1) {
-            // set connection
-            connection.assistant.start()
-            connection.session.delegate = self
-            connection.browser.delegate = self
-        }
-       
-    
-       */
         timer = Timer.scheduledTimer(timeInterval: 1,
                                      target: self,
                                      selector: #selector(self.updateTime),
@@ -185,7 +162,6 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
      
          if previousOption == ""
                 {
-                    
                   selectA()
                 }
          else if(UaccZ < -1.0)
@@ -467,6 +443,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     func showAnswer()
     {
         stopTimer()
+        diableButtons()
         var correctLetter = quizArray[currentTopicNum].correctOptions[currentQuesitonNum]
         
         var ans = quizArray[currentTopicNum].options[currentQuesitonNum][correctLetter]!
@@ -480,8 +457,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     
     func startNextQuestion()
     {
-        print("Quiz num \(currentTopicNum)")
-        print("Quiz num \(currentQuesitonNum)")
+       
         self.submissionNum = 0
         if(currentQuesitonNum+1 < quizArray[currentTopicNum].numberOfQuestions)
         {
@@ -493,13 +469,16 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             clearBackgroundColocOnButtons()
             startTime()
             StartMotionTime()
+            enableButtons()
         }
         else
         {
             restartBtn.isUserInteractionEnabled = true
+            restartBtn.alpha = 1.0
+
         }
+        
     }
-    
     
 
     @IBAction func restart(_ sender: Any) {
@@ -522,8 +501,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             displayQuestionAndOptions()
             timeCount = 20
             previousOption = ""
-            
-            
+   
         }
         stopTimer()
         stopMotionTime()
@@ -570,6 +548,39 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         
     }
     
+    func diableButtons()
+    {
+        buttonA.isUserInteractionEnabled=false
+        buttonB.isUserInteractionEnabled=false
+        buttonC.isUserInteractionEnabled=false
+        buttonD.isUserInteractionEnabled=false
+    }
+    func enableButtons()
+    {
+        buttonA.isUserInteractionEnabled=true
+        buttonB.isUserInteractionEnabled=true
+        buttonC.isUserInteractionEnabled=true
+        buttonD.isUserInteractionEnabled=true
+    }
+    
+    func resetUserAnswers()
+    {
+        player1AnswerText.text=""
+        player2AnswerText.text=""
+        player3AnswerText.text=""
+        player4AnswerText.text=""
+        
+        player1Score = 0
+        player2Score = 0
+        player3Score = 0
+        player4Score = 0
+        
+        score1.text=""
+        score2.text=""
+        score3.text=""
+        score4.text=""
+        
+    }
     
     
     //**********************************************************
