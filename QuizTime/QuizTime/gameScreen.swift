@@ -84,6 +84,8 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             connection.session.delegate = self
             connection.browser.delegate = self
         }
+       
+    
        */
         timer = Timer.scheduledTimer(timeInterval: 1,
                                      target: self,
@@ -94,7 +96,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         displayQuestionAndOptions()
         displayPlayers()
         
-        self.motionManager.deviceMotionUpdateInterval = 1.0/60.0
+        self.motionManager.deviceMotionUpdateInterval = 0.10/60.0
         
         self.motionManager.startDeviceMotionUpdates(using: .xArbitraryCorrectedZVertical)
         
@@ -162,39 +164,49 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
              let UaccZ = (userAcceleration?.z)
              {
             
-         //   print("X \(UaccX)  Y: \(UaccY)   Z \(UaccZ)"  )
+          // print("\(UaccZ)  "  )
+                
             
-            if previousOption == nil
+        
+                
+                
+         if previousOption == ""
                 {
+                    
                   selectA()
                 }
-            else if(yaw>1.0 || yaw < -1.0)
-            {
-                //submit
-            }
-       
-            
-            else if previousOption == "A" {
+         else if(UaccZ < -1.0)
+         {
+            print("Z submit")
+            submitAnswer()
+         }
+         else if(yaw>1.2 || yaw < -1.2)
+         {
+            print("Yaw submit")
+            submitAnswer()
+         }
+           
+        else if previousOption == "A" {
                  if pitch<0.75
                  {
-                    print("Select A")
+                  //  print("Select A")
                     selectA()
                 }
                 else if pitch > 1.5
                  {
-                    print("Select C")
+                    //print("Select C")
                     selectC()
 
                 }
                 else if( roll > 0.5)
                  {
-                    print("Select B")
+                    //print("Select B")
                     selectB()
 
                 }
                 else if (roll < -0.5)
                  {
-                    print("Select A")
+                    //print("Select A")
                     selectA()
 
                 }
@@ -215,13 +227,13 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
                     }
                     else if( roll > 0.5)
                     {
-                        print("Select B")
+                       // print("Select B")
                         selectB()
 
                     }
                     else if (roll < -0.5)
                     {
-                        print("Select A")
+                      //  print("Select A")
                         selectA()
 
                     }
@@ -231,25 +243,25 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             {
                 if pitch<0.75
                 {
-                    print("Select A")
+                 //   print("Select A")
                     selectA()
                     
                 }
                 else if pitch > 1.5
                 {
-                    print("Select C")
+                //    print("Select C")
                     selectC()
                     
                 }
                 else if( roll > 0.5)
                 {
-                    print("Select D")
+                //    print("Select D")
                     selectD()
                     
                 }
                 else if (roll < -0.5)
                 {
-                    print("Select C")
+                  //  print("Select C")
                     selectC()
                     
                 }
@@ -264,23 +276,25 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
                 }
                 else if pitch > 1.5
                 {
-                    print("Select D")
+                //    print("Select D")
                     selectD()
                     
                 }
                 else if( roll > 0.5)
                 {
-                    print("Select D")
+              //      print("Select D")
                     selectD()
                     
                 }
                 else if (roll < -0.5)
                 {
-                    print("Select C")
+                //    print("Select C")
                     selectC()
                     
                 }
             }
+         
+                
  
             
         }
