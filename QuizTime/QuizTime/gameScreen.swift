@@ -76,6 +76,8 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        restartBtn.isUserInteractionEnabled = false
         session.delegate = self
         browser.delegate = self
         // Do any additional setup after loading the view, typically from a nib.
@@ -349,6 +351,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     }
     
     @IBAction func clickedB(_ sender: UIButton) {
+      
         if previousOption == "B" {
             submitAnswer()
             buttonB.backgroundColor = UIColor.red
@@ -402,7 +405,17 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         //highlight submitted answer
         // Check to make sure everyone has an answer in before calling showAnswer
         stopMotionTime()
-        showAnswer()
+        let totalPlayer = connectionNum + 1
+        print("test2 subNum \(submissionNum)")
+        print("test2 conNum\(connectionNum)")
+        if (submissionNum == totalPlayer) {
+            self.submissionNum = 0
+            self.player1AnswerText.text = previousOption
+            self.score1.text = "\(player1Score)"
+            print("showAnswer from submitAnswer")
+            showAnswer()
+            self.updateScoreView()
+        }
         //TODO make sure everyone submitted answer
         //TODO
        // print("answer: [\(previousOption) selected]")
@@ -469,7 +482,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     {
         print("Quiz num \(currentTopicNum)")
         print("Quiz num \(currentQuesitonNum)")
-        
+        self.submissionNum = 0
         if(currentQuesitonNum+1 < quizArray[currentTopicNum].numberOfQuestions)
         {
             print("Change question")
@@ -480,7 +493,6 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             clearBackgroundColocOnButtons()
             startTime()
             StartMotionTime()
-            
         }
         else
         {
@@ -491,7 +503,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     
 
     @IBAction func restart(_ sender: Any) {
-        
+        self.submissionNum = 0
          if(currentTopicNum==0)
         {
             print("topic change")
@@ -589,12 +601,14 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
                     receivedString == "D" ) {
                     print("answer received: [\(receivedString)]")
                     print("playerID [\(peerID)]")
-                    self.updateSubmissionView(peerID: peerID, receivedString: receivedString)
                     self.submissionNum += 1
                     self.updateScore(peerID: peerID, receivedString: receivedString)
+                    self.updateSubmissionView(peerID: peerID, receivedString: receivedString)
                     let totalPlayers = self.connectionNum + 1
                     if (self.submissionNum == totalPlayers) {
                         self.updateScoreView()
+                        print("showAnswer from receviving")
+                        self.showAnswer()
                     }
                 }
             }
@@ -611,9 +625,8 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         case player3ID:
             self.player4AnswerText.text = receivedString
         default:
-            break
+            break;
         }
-
     }
     
     func updateScore(peerID: MCPeerID, receivedString: String) {
@@ -622,6 +635,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             switch peerID {
             case player1ID:
                 self.player2Score += 1
+                print()
             case player2ID:
                 self.player3Score += 1
             case player3ID:
