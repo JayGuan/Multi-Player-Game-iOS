@@ -52,12 +52,14 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     var gameType: Int!
     var connectionNum = 0
     var timer: Timer? = nil
+    var motionTime:Timer? = nil
     var timeCount = 20
     var previousOption = ""
     var connection = Connection()
     var startedGame = false
     var submissionNum = 0
     var answerTimeCount = -1
+    var totalNumQuizzes = 2
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,12 +98,12 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         displayQuestionAndOptions()
         displayPlayers()
         
-        self.motionManager.deviceMotionUpdateInterval = 0.10/60.0
+        self.motionManager.deviceMotionUpdateInterval = 1.0/60.0
         
         self.motionManager.startDeviceMotionUpdates(using: .xArbitraryCorrectedZVertical)
         
         
-        Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateDeviceMotion), userInfo: nil, repeats: true)
+        motionTime = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateDeviceMotion), userInfo: nil, repeats: true)
     }
 
     func updateTime() {
@@ -187,12 +189,8 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
          }
            
         else if previousOption == "A" {
-                 if pitch<0.75
-                 {
-                  //  print("Select A")
-                    selectA()
-                }
-                else if pitch > 1.5
+            
+                 if pitch > 1.5
                  {
                     //print("Select C")
                     selectC()
@@ -204,33 +202,17 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
                     selectB()
 
                 }
-                else if (roll < -0.5)
-                 {
-                    //print("Select A")
-                    selectA()
-
-                }
+            
             }
             else if( previousOption == "B")
                  {
-                    if pitch<0.75
-                    {
-                    
-                        selectB()
-
-                    }
-                    else if pitch > 1.5
+                    if pitch > 1.5
                     {
                 
                    selectD()
 
                     }
-                    else if( roll > 0.5)
-                    {
-                       // print("Select B")
-                        selectB()
-
-                    }
+                   
                     else if (roll < -0.5)
                     {
                       //  print("Select A")
@@ -247,24 +229,14 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
                     selectA()
                     
                 }
-                else if pitch > 1.5
-                {
-                //    print("Select C")
-                    selectC()
-                    
-                }
+              
                 else if( roll > 0.5)
                 {
                 //    print("Select D")
                     selectD()
                     
                 }
-                else if (roll < -0.5)
-                {
-                  //  print("Select C")
-                    selectC()
-                    
-                }
+               
             }
             else if( previousOption == "D")
             {
@@ -274,18 +246,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
                     selectB()
                     
                 }
-                else if pitch > 1.5
-                {
-                //    print("Select D")
-                    selectD()
-                    
-                }
-                else if( roll > 0.5)
-                {
-              //      print("Select D")
-                    selectD()
-                    
-                }
+               
                 else if (roll < -0.5)
                 {
                 //    print("Select C")
@@ -313,6 +274,25 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     func stopTimer() {
         timer?.invalidate()
         timer = nil
+    }
+    func stopMotionTime()
+    {
+        motionTime?.invalidate()
+        motionTime = nil
+    }
+    func startTime()
+    {
+        timer = Timer.scheduledTimer(timeInterval: 1,
+                                     target: self,
+                                     selector: #selector(self.updateTime),
+                                     userInfo: nil,
+                                     repeats: true)
+        
+    }
+    func StartMotionTime()
+    {
+        motionTime = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateDeviceMotion), userInfo: nil, repeats: true)
+
     }
     
     func selectA() {
@@ -400,7 +380,9 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         sendAnswerToOthers(answer: answer)
         player1AnswerText.text = "\(answer)"
         //highlight submitted answer
-        
+        // Check to make sure everyone has an answer in before calling showAnswer
+        stopMotionTime()
+        showAnswer()
         //TODO
        // print("answer: [\(previousOption) selected]")
     }
@@ -450,17 +432,53 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     
     func showAnswer()
     {
-      
+        stopTimer()
         var correctLetter = quizArray[currentTopicNum].correctOptions[currentQuesitonNum]
         
-       var ans = quizArray[currentTopicNum].options[currentQuesitonNum][correctLetter]!
+        var ans = quizArray[currentTopicNum].options[currentQuesitonNum][correctLetter]!
         question.text = "Answer: \(ans)"
         let when = DispatchTime.now() + 3
         DispatchQueue.main.asyncAfter(deadline: when) {
-            self.question.text = "Next question"
-
+            
+            self.startNextQuestion()
         }
-            }
+    }
+    
+    func startNextQuestion()
+    {
+        print("Quiz num \(currentTopicNum)")
+        print("Quiz num \(currentQuesitonNum)")
+        
+        if(currentQuesitonNum+1 < quizArray[currentTopicNum].numberOfQuestions)
+        {
+            print("Change question")
+            currentQuesitonNum+=1
+            displayQuestionAndOptions()
+            timeCount = 20
+            previousOption = ""
+            
+        }
+        else if(currentTopicNum < totalNumQuizzes && currentTopicNum+1 != 2)
+        {
+            print("topic change")
+            currentTopicNum+=1
+            currentQuesitonNum=0
+            displayQuestionAndOptions()
+            timeCount = 20
+            previousOption = ""
+            
+        }
+        else{
+            print("game over")
+         //   restartBtn.isUserInteractionEnabled = true
+            // give user uption to restart
+        }
+        startTime()
+        StartMotionTime()
+        clearBackgroundColocOnButtons()
+        
+    }
+
     
     func displayQuestionAndOptions() {
        // print("question #  on topic # \(quizArray[currentTopicNum].questionSentences[currentQuesitonNum])")
