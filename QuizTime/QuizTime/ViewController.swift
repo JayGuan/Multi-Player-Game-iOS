@@ -20,7 +20,6 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     var connectionNum = 0
     var browser: MCBrowserViewController!
     var assistant: MCAdvertiserAssistant!
-    var startedGame = false
     var player1ID : MCPeerID!
     var player2ID: MCPeerID!
     var player3ID: MCPeerID!
@@ -43,26 +42,13 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         let quiz = Quiz(jsonURL:"http://www.people.vcu.edu/~ebulut/jsonFiles/quiz1.json")
         let quiz2 = Quiz(jsonURL:"http://www.people.vcu.edu/~ebulut/jsonFiles/quiz2.json")
         
-       quizArray.append(quiz)
-       quizArray.append(quiz2)
-        
-      //  print("in here \(quiz.numberOfQuestions)")
-        //print(quiz.questionSentences[0])
-        /*
-        var numQ = quiz.numberOfQuestions as Int
-
-        for i in 0...numQ
-        {
-           print(quiz.questionSentences[i])
-            print(quiz.options[i])
-            print(quiz.correctOptions[i])
-            
-        }
- */
-        
+        quizArray.append(quiz)
+        quizArray.append(quiz2)
     }
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        print("view appeared")
+    }
    
     @IBAction func connect(_ sender: UIButton) {
         
@@ -122,7 +108,6 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     @IBAction func startGame(_ sender: UIButton) {
          print("in segue")
         print(quizArray[0].numberOfQuestions)
-        startedGame = true
         // gameScreen().quizArray = quizArray
         if(gameType != -1)
         {
@@ -181,17 +166,16 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
             if let receivedString = NSKeyedUnarchiver.unarchiveObject(with: data) as? String{
                 print("receivedString = [\(receivedString)]")
                 if receivedString == "begin" {
-                    print("entered")
-                    if (!self.startedGame) {
+                    print("entered view controller begin")
                         self.gameType = 1
                         self.performSegue(withIdentifier: "showGameScreen", sender: self)
-                        self.startedGame = true
-                    }
                 }
             }
             
         })
     }
+    
+    @IBAction func unwindToMenu (segue: UIStoryboardSegue) {}
     
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         

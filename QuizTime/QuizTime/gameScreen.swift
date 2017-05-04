@@ -77,7 +77,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setNavBar()
         restartBtn.isUserInteractionEnabled = false
         session.delegate = self
         browser.delegate = self
@@ -100,6 +100,19 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         motionTime = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateDeviceMotion), userInfo: nil, repeats: true)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+
+    }
+    
+    func setNavBar() {
+        let backItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: "back")
+        self.navigationItem.leftBarButtonItem = backItem
+    }
+    
+    func back() {
+        performSegue(withIdentifier: "unwindToMenu", sender: self)
+    }
+    
     func updateTime() {
         if (timeCount > 0) {
             timerAndMessage.text = "\(timeCount)"
@@ -108,10 +121,40 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         else {
             submitAnswer()
             stopTimer()
-            won()
-            lost()
+            //check scores
+            let result = player1Winner()
+            print("result is \(result)")
+            switch result {
+            case 0:
+                lost()
+            case 1:
+                won()
+            case 2:
+                tie()
+            default:
+                break
+            }
         }
 
+    }
+    
+    //check won or lose
+    //0 = lose, 1 = won, 2 = tie
+    func player1Winner()->Int {
+        let maxScore = max(player1Score, player2Score, player3Score, player4Score)
+        //player 1 has max score
+        if (maxScore == player1Score) {
+            //is there a tie?
+            if (player2Score == maxScore || player3Score == maxScore || player4Score == maxScore) {
+                return 2
+            }
+            else {
+                return 1
+            }
+        }
+        else {
+            return 0
+        }
     }
     
     override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
@@ -258,13 +301,18 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         
     }
     
-    
     func won() {
         //TODO
+        timerAndMessage.text = "You Won!"
     }
     
     func lost() {
         //TOOD
+        timerAndMessage.text = "You Lost!"
+    }
+    
+    func tie() {
+        timerAndMessage.text = "You are one of the winners!"
     }
     
     func stopTimer() {
@@ -392,10 +440,9 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             showAnswer()
             self.updateScoreView()
         }
-        sendAnswerToOthers(answer: answer)
-        //TODO make sure everyone submitted answer
-        //TODO
-       // print("answer: [\(previousOption) selected]")
+        if (gameType == 1) {
+            sendAnswerToOthers(answer: answer)
+        }
     }
     
     func sendAnswerToOthers(answer: String) {
@@ -412,20 +459,36 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     }
     
     func displayPlayers() {
-        switch connectionNum {
-        case 2:
-            //3 people
-            img4.alpha = 0.1
-            p3Name.alpha = 0.1
-            player4AnswerText.alpha = 0.1
-        case 1:
-            img4.alpha = 0.1
-            p3Name.alpha = 0.1
-            player4AnswerText.alpha = 0.1
-            img3.alpha = 0.1
-            p2Name.alpha = 0.1
-            player3AnswerText.alpha = 0.1
-        case 0:
+        if (gameType == 1) {
+            switch connectionNum {
+            case 2:
+                //3 people
+                img4.alpha = 0.1
+                p3Name.alpha = 0.1
+                player4AnswerText.alpha = 0.1
+            case 1:
+                img4.alpha = 0.1
+                p3Name.alpha = 0.1
+                player4AnswerText.alpha = 0.1
+                img3.alpha = 0.1
+                p2Name.alpha = 0.1
+                player3AnswerText.alpha = 0.1
+            case 0:
+                img4.alpha = 0.1
+                p3Name.alpha = 0.1
+                player4AnswerText.alpha = 0.1
+                img3.alpha = 0.1
+                p2Name.alpha = 0.1
+                player3AnswerText.alpha = 0.1
+                img2.alpha = 0.1
+                p1Name.alpha = 0.1
+                player2AnswerText.alpha = 0.1
+            default:
+                // 4 players
+                break
+            }
+        }
+        else {
             img4.alpha = 0.1
             p3Name.alpha = 0.1
             player4AnswerText.alpha = 0.1
@@ -435,9 +498,6 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             img2.alpha = 0.1
             p1Name.alpha = 0.1
             player2AnswerText.alpha = 0.1
-        default:
-            // 4 players
-            break
         }
     }
     
@@ -476,14 +536,27 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         {
             restartBtn.isUserInteractionEnabled = true
             restartBtn.alpha = 1.0
-
+            let result = player1Winner()
+            print("result is \(result)")
+            switch result {
+            case 0:
+                lost()
+            case 1:
+                won()
+            case 2:
+                tie()
+            default:
+                break
+            }
         }
         
     }
     
 
     @IBAction func restart(_ sender: Any) {
-        otherUserRestart()
+        if (gameType == 1) {
+            otherUserRestart()
+        }
         restartFunction()
     }
    
@@ -509,6 +582,27 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             previousOption = ""
             
         }
+        resetUserAnswers()
+        enableButtons()
+        stopTimer()
+        stopMotionTime()
+        startTime()
+        StartMotionTime()
+        clearBackgroundColocOnButtons()
+        restartBtn.isUserInteractionEnabled = false
+        restartBtn.alpha = 0.1
+    }
+    
+    func beginGame() {
+        self.submissionNum = 0
+        restarted = false;
+            print("topic change entered 1")
+            currentTopicNum=0
+            currentQuesitonNum=0
+            displayQuestionAndOptions()
+            timeCount = 20
+            previousOption = ""
+            
         resetUserAnswers()
         enableButtons()
         stopTimer()
@@ -654,6 +748,10 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
                     self.restartFunction()
                     self.restarted = true
                 }
+                else if receivedString == "begin" {
+                    print("enter begin")
+                    self.beginGame()
+                }
             }
         })
     }
@@ -726,7 +824,27 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         
     }
     //**********************************************************
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "unwindToMenu" {
+            print("enter unwind")
+            if let DVC = segue.destination as? ViewController{
+                print("enter segue")
+                DVC.gameType = gameType
+                DVC.quizArray = quizArray
+                DVC.connectionNum = self.connectionNum
+                DVC.session = self.session
+                DVC.peerID = self.peerID
+                DVC.browser = self.browser
+                DVC.assistant = self.assistant
+                DVC.player1ID = self.player1ID
+                DVC.player2ID = self.player2ID
+                DVC.player3ID = self.player3ID
+                print("connectionNum = \(connectionNum)")
+                print("gameType = \(gameType)")
+            }
+        }
+        
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -735,5 +853,3 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     
     
 }
-
-
