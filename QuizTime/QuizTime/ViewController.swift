@@ -102,9 +102,6 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         if segue.identifier == "showGameScreen" {
             if let DVC = segue.destination as? gameScreen{
                 //TODO check game type, if multi player then switch all user's screen to game scene
-                if (gameType == 1) {
-                    notifyOtherUsers()
-                }
                 //DVC.connection = self.connection
                 DVC.gameType = gameType
                 DVC.quizArray = quizArray
@@ -136,6 +133,9 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
                 self.present(alert, animated: true, completion: nil)
             }
             else {
+                if (gameType == 1) {
+                    notifyOtherUsers()
+                }
                 performSegue(withIdentifier: "showGameScreen", sender: self)
             }
            

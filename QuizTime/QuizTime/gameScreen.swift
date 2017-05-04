@@ -63,6 +63,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     var totalNumQuizzes = 2
     var session: MCSession!
     var peerID: MCPeerID!
+    var myID: MCPeerID!
     var browser: MCBrowserViewController!
     var assistant: MCAdvertiserAssistant!
     var player1Score = 0
@@ -81,7 +82,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         session.delegate = self
         browser.delegate = self
         restartBtn.alpha = 0.1
-
+        self.myID = MCPeerID(displayName: UIDevice.current.name)
         timer = Timer.scheduledTimer(timeInterval: 1,
                                      target: self,
                                      selector: #selector(self.updateTime),
@@ -482,11 +483,16 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     
 
     @IBAction func restart(_ sender: Any) {
+        otherUserRestart()
+        restartFunction()
+    }
+   
+    func restartFunction() {
         self.submissionNum = 0
         restarted = false;
-         if(currentTopicNum==0)
+        if(currentTopicNum==0)
         {
-            print("topic change")
+            print("topic change entered 0")
             currentTopicNum=1
             currentQuesitonNum=0
             displayQuestionAndOptions()
@@ -495,13 +501,13 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             
         }
         else{
-            print("topic change")
+            print("topic change entered 1")
             currentTopicNum=0
             currentQuesitonNum=0
             displayQuestionAndOptions()
             timeCount = 20
             previousOption = ""
-   
+            
         }
         resetUserAnswers()
         enableButtons()
@@ -512,10 +518,8 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
         clearBackgroundColocOnButtons()
         restartBtn.isUserInteractionEnabled = false
         restartBtn.alpha = 0.1
-        
-        otherUserRestart()
     }
-   
+    
     func otherUserRestart() {
         let msg = "restart"
         let dataToSend =  NSKeyedArchiver.archivedData(withRootObject: msg)
@@ -624,6 +628,8 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
             
             if let receivedString = NSKeyedUnarchiver.unarchiveObject(with: data) as? String{
                 print("receivedString = [\(receivedString)]")
+                print("myid = \(self.myID)")
+                print("senderID = \(peerID)")
                 if (receivedString == "A" ||
                     receivedString == "B" ||
                     receivedString == "C" ||
@@ -640,12 +646,15 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
                         self.showAnswer()
                     }
                 }
-                else if (receivedString == "restart" && (!self.restarted)) {
-                    self.restartBtn.sendActions(for: .touchUpInside)
+                else if (receivedString == "restart") {
+                    print("inside")
+                    print("myid = \(self.myID)")
+                    print("senderID = \(peerID)")
+                    print("topic change entered 2")
+                    self.restartFunction()
                     self.restarted = true
                 }
             }
-            
         })
     }
     
