@@ -186,14 +186,14 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Me" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OfP-Zc-jOr">
                                 <rect key="frame" x="32" y="181" width="42" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                 <color key="textColor" red="0.97104851192996544" green="0.99028130211510745" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="P1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZCx-eM-zDc">
                                 <rect key="frame" x="118" y="181" width="42" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                 <color key="textColor" red="0.97104851192996544" green="0.99028130211510745" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -239,14 +239,14 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="P2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HjQ-uH-dwi">
                                 <rect key="frame" x="226" y="180" width="21" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="P4" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hsb-8f-rKo">
                                 <rect key="frame" x="304" y="181" width="42" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                 <color key="textColor" red="0.97104851192996544" green="0.99028130211510745" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -265,10 +265,14 @@
                         <outlet property="buttonB" destination="G2i-kR-bKm" id="YrR-Cj-Sar"/>
                         <outlet property="buttonC" destination="9jt-vU-ArD" id="WFd-G9-Qim"/>
                         <outlet property="buttonD" destination="3nB-ec-BpL" id="exK-Vh-Fhm"/>
+                        <outlet property="connection1Name" destination="ZCx-eM-zDc" id="DkS-Wd-s1G"/>
+                        <outlet property="connection2Name" destination="HjQ-uH-dwi" id="b2T-SR-1xp"/>
+                        <outlet property="connection3Name" destination="Hsb-8f-rKo" id="za2-ee-Pyh"/>
                         <outlet property="img1" destination="do4-iZ-DIu" id="3Li-zM-1ZG"/>
                         <outlet property="img2" destination="i7O-Lc-rPe" id="zhc-H9-6tZ"/>
                         <outlet property="img3" destination="08S-Om-5rW" id="oS4-Ju-iKI"/>
                         <outlet property="img4" destination="tBA-Ov-SNd" id="cFR-O7-4zf"/>
+                        <outlet property="myName" destination="OfP-Zc-jOr" id="Hzd-se-xpn"/>
                         <outlet property="p1Name" destination="ZCx-eM-zDc" id="WK1-q2-1UP"/>
                         <outlet property="p2Name" destination="bDK-Tw-aIw" id="wFn-YQ-Mm8"/>
                         <outlet property="p3Name" destination="Hsb-8f-rKo" id="bTr-lT-pQx"/>

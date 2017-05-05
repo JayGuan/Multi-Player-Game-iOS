@@ -36,6 +36,12 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     @IBOutlet weak var score2: UILabel!
     @IBOutlet weak var score3: UILabel!
     @IBOutlet weak var score4: UILabel!
+    @IBOutlet weak var myName: UILabel!
+    @IBOutlet weak var connection1Name: UILabel!
+    @IBOutlet weak var connection2Name: UILabel!
+    @IBOutlet weak var connection3Name: UILabel!
+    
+    
     
     
     @IBOutlet weak var player1AnswerText: UITextField!
@@ -74,6 +80,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     var player2ID: MCPeerID!
     var player3ID: MCPeerID!
     var restarted = false
+    //var answerSubmitted = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,6 +118,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     
     func back() {
         performSegue(withIdentifier: "unwindToMenu", sender: self)
+        
     }
     
     func updateTime() {
@@ -203,7 +211,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
              let UaccY = (userAcceleration?.y),
              let UaccZ = (userAcceleration?.z)
              {
-     
+            print(yaw)
          if previousOption == ""
                 {
                   selectA()
@@ -418,31 +426,34 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     }
     
     func submitAnswer() {
-        print("answer submitted")
-        submissionNum += 1
-        let correctAnswer = self.quizArray[self.currentTopicNum].correctOptions[self.currentQuesitonNum]
-        let answer = previousOption
-        if (correctAnswer == answer) {
-            player1Score += 1
-        }
-        player1AnswerText.text = "\(answer)"
-        //highlight submitted answer
-        // Check to make sure everyone has an answer in before calling showAnswer
-        stopMotionTime()
-        let totalPlayer = connectionNum + 1
-        print("test2 subNum \(submissionNum)")
-        print("test2 conNum\(connectionNum)")
-        if (submissionNum == totalPlayer) {
-            self.submissionNum = 0
-            self.player1AnswerText.text = previousOption
-            self.score1.text = "\(player1Score)"
-            print("showAnswer from submitAnswer")
-            showAnswer()
-            self.updateScoreView()
-        }
-        if (gameType == 1) {
-            sendAnswerToOthers(answer: answer)
-        }
+        //if (!answerSubmitted) {
+            print("answer submitted")
+            submissionNum += 1
+            let correctAnswer = self.quizArray[self.currentTopicNum].correctOptions[self.currentQuesitonNum]
+            let answer = previousOption
+            if (correctAnswer == answer) {
+                player1Score += 1
+            }
+            player1AnswerText.text = "\(answer)"
+            //highlight submitted answer
+            // Check to make sure everyone has an answer in before calling showAnswer
+            stopMotionTime()
+            let totalPlayer = connectionNum + 1
+            print("test2 subNum \(submissionNum)")
+            print("test2 conNum\(connectionNum)")
+            if (submissionNum == totalPlayer) {
+                self.submissionNum = 0
+                self.player1AnswerText.text = previousOption
+                self.score1.text = "\(player1Score)"
+                print("showAnswer from submitAnswer")
+                showAnswer()
+                self.updateScoreView()
+            }
+            if (gameType == 1) {
+                sendAnswerToOthers(answer: answer)
+            }
+            //answerSubmitted = true
+        //}
     }
     
     func sendAnswerToOthers(answer: String) {
@@ -466,6 +477,9 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
                 img4.alpha = 0.1
                 p3Name.alpha = 0.1
                 player4AnswerText.alpha = 0.1
+                myName.text = "\(myID.displayName)"
+                connection1Name.text = "\(player1ID.displayName)"
+                connection2Name.text = "\(player2ID.displayName)"
             case 1:
                 img4.alpha = 0.1
                 p3Name.alpha = 0.1
@@ -473,6 +487,8 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
                 img3.alpha = 0.1
                 p2Name.alpha = 0.1
                 player3AnswerText.alpha = 0.1
+                myName.text = "\(myID.displayName)"
+                connection1Name.text = "\(player1ID.displayName)"
             case 0:
                 img4.alpha = 0.1
                 p3Name.alpha = 0.1
@@ -483,6 +499,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
                 img2.alpha = 0.1
                 p1Name.alpha = 0.1
                 player2AnswerText.alpha = 0.1
+                myName.text = "\(myID.displayName)"
             default:
                 // 4 players
                 break
@@ -518,7 +535,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
     
     func startNextQuestion()
     {
-       
+        //answerSubmitted = false
         self.submissionNum = 0
         if(currentQuesitonNum+1 < quizArray[currentTopicNum].numberOfQuestions)
         {
@@ -562,6 +579,7 @@ class gameScreen: UIViewController , MCBrowserViewControllerDelegate, MCSessionD
    
     func restartFunction() {
         self.submissionNum = 0
+        //self.answerSubmitted = false
         restarted = false;
         if(currentTopicNum==0)
         {
